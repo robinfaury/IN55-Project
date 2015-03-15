@@ -72,8 +72,9 @@ void OpenGLWindow::run()
 		glm::mat4 Model      = glm::mat4(1.0f);
 		glm::mat4 MVP        = Projection * View * Model;
 
-		this->world.GetListOfMesh()[0]->draw(Model, View, Projection);
-		//this->world.GetListOfMesh()[1]->draw(Model, View, Projection);
+		std::vector<Mesh*>* listOfMesh = this->world.GetListOfMesh();
+		for (std::vector<Mesh*>::iterator worldObject = listOfMesh->begin(); worldObject != listOfMesh->end(); ++worldObject)
+			(*worldObject)->draw(Model, View, Projection);
 
 		this->window->display();
 

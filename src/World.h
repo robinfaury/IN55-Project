@@ -14,7 +14,7 @@ public:
 	World();
 
 	void createScene();
-	std::vector<Mesh*> GetListOfMesh() {return this->listOfMesh;}
+	std::vector<Mesh*>* GetListOfMesh() {return &this->listOfMesh;}
 
 	~World();
 };
