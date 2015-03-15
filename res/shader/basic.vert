@@ -1,21 +1,22 @@
 #version 330 core
 
-// Input vertex data, different for all executions of this shader.
 layout(location = 0) in vec3 vertexPosition_modelspace;
-layout(location = 1) in vec3 vertexColor;
+layout(location = 1) in vec3 vertexNormal;
 
-// Output data ; will be interpolated for each fragment.
+// Output data
 out vec3 fragmentColor;
-// Values that stay constant for the whole mesh.
-uniform mat4 MVP;
 
-void main(){	
+uniform mat4 Model;
+uniform mat4 View;
+uniform mat4 Projection;
 
-	// Output position of the vertex, in clip space : MVP * position
-	gl_Position =  MVP * vec4(vertexPosition_modelspace,1);
+void main()
+{
+	gl_Position =  Projection*View*Model * vec4(vertexPosition_modelspace,1);
+	vec3 positionWord = (Model * vec4(vertexPosition_modelspace, 1)).xyz;
 
-	// The color of each vertex will be interpolated
-	// to produce the color of each fragment
-	fragmentColor = vertexColor;
+	float cosTheta = clamp(dot(vertexNormal, vec3(4.0, 4.0, 4.0)), 0, 1);
+
+	fragmentColor = vec3(1.0, 1.0, 1.0);
 }
 
