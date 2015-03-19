@@ -22,14 +22,19 @@ protected:
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> normalsOnVetices;
 	std::vector<glm::vec2> uvs;
 	glm::vec3 color;
 
-	GLuint vertexBufferID;
-	GLuint normalBufferID;
-	GLuint VAOID;
+	GLuint VBO_Vertices;
+	GLuint VBO_Normals;
+	GLuint VAO_Mesh;
+
+	GLuint VBO_NormalsOnVetices;
+	GLuint VAO_Normals;
 
 	bool loaded;
+	bool drawNormal;
 	
 	void loadMesh();
 
@@ -42,6 +47,8 @@ public:
 	void draw(glm::mat4 &model, glm::mat4 &view, glm::mat4 &projection);
 
 	bool isLoaded() {return this->loaded;}
+	void enableNormal() {this->drawNormal = true;}
+	void disableNormal() {this->drawNormal = false;}
 
 	void setShader(Shader* shader) {this->shader = shader;}
 
