@@ -6,11 +6,13 @@ layout(location = 1) in vec3 vertexNormal;
 // Output data
 out vec3 Normal_cameraspace;
 out vec3 LightDirection_cameraspace;
+out vec3 EyeDirection_cameraspace;
 
 uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
 uniform vec3 PosLamp01;
+uniform vec3 PosCamera;
 
 void main()
 {
@@ -19,7 +21,7 @@ void main()
 
 	Normal_cameraspace = (View * Model * vec4(vertexNormal, 0)).xyz;
 
-	vec3 EyeDirection_cameraspace = vec3(0,0,0) - vertexPosition_cameraspace;
+	EyeDirection_cameraspace = PosCamera - vertexPosition_cameraspace;
 
 	vec3 LightPosition_cameraspace = ( View * vec4(PosLamp01,1)).xyz;
 	LightDirection_cameraspace = LightPosition_cameraspace + EyeDirection_cameraspace;

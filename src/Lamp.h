@@ -23,8 +23,8 @@ public:
 	void setAmbiant(float a);
 	void setDiffuse(float d);
 	void setSpecular(float s);
-	glm::vec3* getPosition();
-	glm::vec3* getColor();
+	glm::vec3 getPosition();
+	glm::vec3 getColor();
 	float getAmbiant();
 	float getDiffuse();
 	float getSpecular();

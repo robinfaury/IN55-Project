@@ -56,14 +56,14 @@ void Lamp::setSpecular(float s)
 	this->specular = s;
 }
 
-glm::vec3* Lamp::getPosition()
+glm::vec3 Lamp::getPosition()
 {
-	return &this->position;
+	return this->position;
 }
 
-glm::vec3* Lamp::getColor()
+glm::vec3 Lamp::getColor()
 {
-	return &this->color;
+	return this->color;
 }
 
 float Lamp::getAmbiant()

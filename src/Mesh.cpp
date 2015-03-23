@@ -25,20 +25,6 @@ Mesh::Mesh(const char* filename)
 	loadOBJ(filename);
 }
 
-Mesh::Mesh(const char* filename, Shader* shader)
-{
-	this->VBO_Vertices = 0;
-	this->VBO_Normals = 0;
-	this->VBO_NormalsOnVetices = 0;
-	this->VAO_Mesh = 0;
-	this->VAO_Normals = 0;
-	this->color = glm::vec3(1.0, 0.0, 1.0);
-	this->loaded = false;
-	this->drawNormal = false;
-	this->shader = shader;
-	loadOBJ(filename);
-}
-
 void Mesh::loadOBJ(const char* filename)
 {
 	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
@@ -207,14 +193,17 @@ void Mesh::loadMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::draw(glm::mat4 &model, glm::mat4 &view, glm::mat4 &projection)
+void Mesh::draw()
 {
 	glBindVertexArray(this->VAO_Mesh);
 		glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
 	glBindVertexArray(0);
-	glBindVertexArray(this->VAO_Normals);
-		glDrawArrays(GL_LINES, 0, this->normalsOnVetices.size());
-	glBindVertexArray(0);
+	if (this->drawNormal)
+	{
+		glBindVertexArray(this->VAO_Normals);
+			glDrawArrays(GL_LINES, 0, this->normalsOnVetices.size());
+		glBindVertexArray(0);
+	}
 }
 
 Mesh::~Mesh()

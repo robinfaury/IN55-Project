@@ -17,6 +17,7 @@ public:
 	World();
 
 	void createScene();
+	std::vector<Shader*>* GetListOfShader() {return &this->listOfShader;}
 	std::vector<Mesh*>* GetListOfMesh() {return &this->listOfMesh;}
 	std::vector<Lamp*>* GetListOfLamp() {return &this->listOfLamp;}
 
