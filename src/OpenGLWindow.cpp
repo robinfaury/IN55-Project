@@ -73,8 +73,21 @@ void OpenGLWindow::run()
 		glm::mat4 MVP        = Projection * View * Model;
 
 		std::vector<Mesh*>* listOfMesh = this->world.GetListOfMesh();
+		std::vector<Lamp*>* listOfLamp = this->world.GetListOfLamp();
+		Shader* shader = (*listOfMesh)[0]->getShader();
+
+		glUseProgram(shader->getProgramID());
+			glUniformMatrix4fv(glGetUniformLocation(shader->getProgramID(), "Model"), 1, GL_FALSE, &Model[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(shader->getProgramID(), "View"), 1, GL_FALSE, &View[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(shader->getProgramID(), "Projection"), 1, GL_FALSE, &Projection[0][0]);
+
+			glm::vec3* pos = (*listOfLamp)[0]->getPosition();
+			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosLamp01"), pos->x, pos->y, pos->z);
 		for (std::vector<Mesh*>::iterator worldObject = listOfMesh->begin(); worldObject != listOfMesh->end(); ++worldObject)
+		{
 			(*worldObject)->draw(Model, View, Projection);
+		}
+		glUseProgram(0);
 
 		this->window->display();
 

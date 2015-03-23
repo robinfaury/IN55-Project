@@ -51,6 +51,7 @@ public:
 	void disableNormal() {this->drawNormal = false;}
 
 	void setShader(Shader* shader) {this->shader = shader;}
+	Shader* getShader() {return this->shader;}
 
 	~Mesh();
 };

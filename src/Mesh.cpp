@@ -209,20 +209,12 @@ void Mesh::loadMesh()
 
 void Mesh::draw(glm::mat4 &model, glm::mat4 &view, glm::mat4 &projection)
 {
-	glUseProgram(this->shader->getProgramID());
-		glBindVertexArray(this->VAO_Mesh);
-			glUniformMatrix4fv(glGetUniformLocation(this->shader->getProgramID(), "Model"), 1, GL_FALSE, &model[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(this->shader->getProgramID(), "View"), 1, GL_FALSE, &view[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(this->shader->getProgramID(), "Projection"), 1, GL_FALSE, &projection[0][0]);
-			glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
-		glBindVertexArray(0);
-		glBindVertexArray(this->VAO_Normals);
-			glUniformMatrix4fv(glGetUniformLocation(this->shader->getProgramID(), "Model"), 1, GL_FALSE, &model[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(this->shader->getProgramID(), "View"), 1, GL_FALSE, &view[0][0]);
-			glUniformMatrix4fv(glGetUniformLocation(this->shader->getProgramID(), "Projection"), 1, GL_FALSE, &projection[0][0]);
-			glDrawArrays(GL_LINES, 0, this->normalsOnVetices.size());
-		glBindVertexArray(0);
-	glUseProgram(0);
+	glBindVertexArray(this->VAO_Mesh);
+		glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
+	glBindVertexArray(0);
+	glBindVertexArray(this->VAO_Normals);
+		glDrawArrays(GL_LINES, 0, this->normalsOnVetices.size());
+	glBindVertexArray(0);
 }
 
 Mesh::~Mesh()
