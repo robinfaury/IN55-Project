@@ -10,6 +10,7 @@ out vec3 LightDirection_cameraspace;
 uniform mat4 Model;
 uniform mat4 View;
 uniform mat4 Projection;
+uniform vec3 PosLamp01;
 
 void main()
 {
@@ -20,7 +21,7 @@ void main()
 
 	vec3 EyeDirection_cameraspace = vec3(0,0,0) - vertexPosition_cameraspace;
 
-	vec3 LightPosition_cameraspace = ( View * vec4(vec3(4.0, 1.0, 4.0),1)).xyz;
+	vec3 LightPosition_cameraspace = ( View * vec4(PosLamp01,1)).xyz;
 	LightDirection_cameraspace = LightPosition_cameraspace + EyeDirection_cameraspace;
 }
 
