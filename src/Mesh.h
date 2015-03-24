@@ -30,6 +30,8 @@ protected:
 	std::vector<glm::vec3> normalsOnVetices;
 	std::vector<glm::vec2> uvs;
 	glm::vec3 color;
+	glm::vec3 colorID;
+	sf::Texture* texture;
 	glm::mat4 transform;
 
 	GLuint VBO_Vertices;
@@ -61,6 +63,7 @@ public:
 	void disableNormal() {this->drawNormal = false;}
 
 	void setColor(glm::vec3 color) {this->color = color;}
+	void setTexture(sf::Texture* texture) {this->texture = texture;}
 
 	~Mesh();
 };

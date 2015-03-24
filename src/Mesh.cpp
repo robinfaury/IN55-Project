@@ -21,6 +21,7 @@ void Mesh::init()
 	this->VAO_Mesh = 0;
 	this->VAO_Normals = 0;
 	this->color = glm::vec3(1.0, 1.0, 1.0);
+	this->colorID = glm::vec3(((this->currentID & 0x000000FF) >> 0)/255.0, ((this->currentID & 0x0000FF00) >> 8)/255.0, ((this->currentID & 0x00FF0000) >> 16)/255.0);
 	this->loaded = false;
 	this->drawNormal = false;
 }
@@ -199,6 +200,7 @@ void Mesh::draw(GLuint shaderID)
 {
 	glUniformMatrix4fv(glGetUniformLocation(shaderID, "Transform"), 1, GL_FALSE, &this->transform[0][0]);
 	glUniform3f(glGetUniformLocation(shaderID, "ObjectColor"), this->color.x, this->color.y, this->color.z);
+	glUniform3f(glGetUniformLocation(shaderID, "ObjectColorID"), this->colorID.x, this->colorID.y, this->colorID.z);
 	glBindVertexArray(this->VAO_Mesh);
 		glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
 	glBindVertexArray(0);

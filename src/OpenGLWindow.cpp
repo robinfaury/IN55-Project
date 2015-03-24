@@ -50,7 +50,7 @@ void OpenGLWindow::run()
 	this->eventStyle.setWindow(this->window);
 	glm::mat4 modelView;
 	glm::mat4 projection;
-	glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
+	sf::Event Event;
 
 	/******************* SFML Loop *******************/
 	double alpha = 0.0;
@@ -59,7 +59,8 @@ void OpenGLWindow::run()
 	while (this->window->isOpen()) 
 	{
 		start_time = std::chrono::high_resolution_clock::now();
-		sf::Event Event;
+		glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
+		
 		while (this->window->pollEvent(Event)) 
 			this->eventStyle.interpretEvent(Event);
 
