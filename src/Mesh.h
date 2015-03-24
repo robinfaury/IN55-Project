@@ -65,6 +65,4 @@ public:
 	~Mesh();
 };
 
-int Mesh::ID = 0;
-
 #endif

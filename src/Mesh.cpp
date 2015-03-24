@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+int Mesh::ID = 0;
+
 Mesh::Mesh() : currentID(ID++)
 {
 	init();
