@@ -10,13 +10,14 @@ in vec3 EyeDirection_cameraspace;
 out vec3 color;
 
 uniform vec3 PosLamp01;
+uniform vec3 ObjectColor;
 
 void main()
 {
 	vec3 LightColor = vec3(1,1,1);
 	float LightPower = 30.0f;
 
-	vec3 MaterialDiffuseColor = vec3(1.0, 0.0, 0.0);
+	vec3 MaterialDiffuseColor = ObjectColor;
 	vec3 MaterialAmbientColor = vec3(0.1,0.1,0.1) * MaterialDiffuseColor;
 	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
 

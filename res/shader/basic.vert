@@ -15,6 +15,7 @@ uniform mat4 Projection;
 uniform vec3 PosLamp01;
 uniform vec3 PosCamera;
 uniform mat4 Transform;
+uniform vec3 ObjectColor;
 
 void main()
 {

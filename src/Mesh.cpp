@@ -1,28 +1,26 @@
 #include "Mesh.h"
 
-Mesh::Mesh()
+Mesh::Mesh() : currentID(ID++)
 {
-	this->VBO_Vertices = 0;
-	this->VBO_Normals = 0;
-	this->VBO_NormalsOnVetices = 0;
-	this->VAO_Mesh = 0;
-	this->VAO_Normals = 0;
-	this->color = glm::vec3(1.0, 0.0, 1.0);
-	this->loaded = false;
-	this->drawNormal = false;
+	init();
 }
 
-Mesh::Mesh(const char* filename)
+Mesh::Mesh(const char* filename) : currentID(ID++)
+{
+	init();
+	loadOBJ(filename);
+}
+
+void Mesh::init()
 {
 	this->VBO_Vertices = 0;
 	this->VBO_Normals = 0;
 	this->VBO_NormalsOnVetices = 0;
 	this->VAO_Mesh = 0;
 	this->VAO_Normals = 0;
-	this->color = glm::vec3(1.0, 0.0, 1.0);
+	this->color = glm::vec3(1.0, 1.0, 1.0);
 	this->loaded = false;
 	this->drawNormal = false;
-	loadOBJ(filename);
 }
 
 void Mesh::loadOBJ(const char* filename)
@@ -198,6 +196,7 @@ void Mesh::loadMesh()
 void Mesh::draw(GLuint shaderID)
 {
 	glUniformMatrix4fv(glGetUniformLocation(shaderID, "Transform"), 1, GL_FALSE, &this->transform[0][0]);
+	glUniform3f(glGetUniformLocation(shaderID, "ObjectColor"), this->color.x, this->color.y, this->color.z);
 	glBindVertexArray(this->VAO_Mesh);
 		glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
 	glBindVertexArray(0);

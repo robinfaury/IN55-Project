@@ -19,6 +19,10 @@
 
 class Mesh
 {
+private:
+	static int ID;
+	const int currentID;
+
 protected:
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
@@ -38,6 +42,7 @@ protected:
 	bool loaded;
 	bool drawNormal;
 	
+	void init();
 	void loadMesh();
 
 public:
@@ -51,12 +56,15 @@ public:
 	void scale(glm::vec3 scaling);
 	void rotate(float alpha, glm::vec3 axis, bool radian = 1);
 	
-
 	bool isLoaded() {return this->loaded;}
 	void enableNormal() {this->drawNormal = true;}
 	void disableNormal() {this->drawNormal = false;}
 
+	void setColor(glm::vec3 color) {this->color = color;}
+
 	~Mesh();
 };
+
+int Mesh::ID = 0;
 
 #endif
