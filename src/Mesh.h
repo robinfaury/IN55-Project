@@ -49,7 +49,8 @@ public:
 
 	void translate(glm::vec3 translation);
 	void scale(glm::vec3 scaling);
-	void rotate(glm::mat3 rotation);
+	void rotate(float alpha, glm::vec3 axis, bool radian = 1);
+	
 
 	bool isLoaded() {return this->loaded;}
 	void enableNormal() {this->drawNormal = true;}

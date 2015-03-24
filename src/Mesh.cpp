@@ -223,9 +223,15 @@ void Mesh::scale(glm::vec3 scaling)
 	this->transform[2][2] *= scaling[2];
 }
 
-void Mesh::rotate(glm::mat3 rotation)
+void Mesh::rotate(float alpha, glm::vec3 axis, bool radian)
 {
-
+	if (!radian)
+		alpha = 3.14159265359 * alpha / 180.0;
+	glm::normalize(axis);
+	float c = cos(alpha), s = sin(alpha);
+	this->transform[0][0] = axis.x*axis.x + (1 - axis.x*axis.x)*c;		this->transform[1][0] = axis.x*axis.y*(1-c) - axis.z*s;				this->transform[2][0] = axis.x*axis.z*(1-c) + axis.y*s;
+	this->transform[0][1] = axis.x*axis.y*(1-c) + axis.z*s;				this->transform[1][1] = axis.y*axis.y + (1 - axis.y*axis.y)*c;		this->transform[2][1] = axis.y*axis.z*(1-c) - axis.x*s;
+	this->transform[0][2] = axis.x*axis.z*(1-c) - axis.y*s;				this->transform[1][2] = axis.y*axis.z*(1-c) + axis.x*s;				this->transform[2][2] = axis.z*axis.z + (1 - axis.z*axis.z)*c;
 }
 
 Mesh::~Mesh()
