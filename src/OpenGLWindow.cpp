@@ -20,7 +20,7 @@ OpenGLWindow::OpenGLWindow(int height, int width, std::string name, int antialia
 	setting.stencilBits = stencilBits;
 
 	this->window = new sf::Window(sf::VideoMode(height, width), name, sf::Style::Default, setting);
-	this->window->setVerticalSyncEnabled(true);
+	this->window->setFramerateLimit(30);
 
 	setting = this->window->getSettings();
 	std::cout<<"Antialiasing Level : "<<setting.antialiasingLevel<<std::endl;
@@ -55,8 +55,10 @@ void OpenGLWindow::run()
 	/******************* SFML Loop *******************/
 	double alpha = 0.0;
 	double radius = 2.0;
+	std::chrono::system_clock::time_point start_time, end_time;
 	while (this->window->isOpen()) 
 	{
+		start_time = std::chrono::high_resolution_clock::now();
 		sf::Event Event;
 		while (this->window->pollEvent(Event)) 
 			this->eventStyle.interpretEvent(Event);
@@ -88,13 +90,16 @@ void OpenGLWindow::run()
 			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosLamp01"), pos.x, pos.y, pos.z);
 			for (std::vector<Mesh*>::iterator worldObject = listOfMesh->begin(); worldObject != listOfMesh->end(); ++worldObject)
 			{
-				(*worldObject)->draw();
+				(*worldObject)->draw(shader->getProgramID());
 			}
 		glUseProgram(0);
 
 		this->window->display();
 
 		alpha += 0.01;
+
+		end_time = std::chrono::high_resolution_clock::now();
+		std::cout <<"frame time : "<< std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
 	}
 }
 

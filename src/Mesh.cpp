@@ -195,8 +195,9 @@ void Mesh::loadMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::draw()
+void Mesh::draw(GLuint shaderID)
 {
+	glUniformMatrix4fv(glGetUniformLocation(shaderID, "Transform"), 1, GL_FALSE, &this->transform[0][0]);
 	glBindVertexArray(this->VAO_Mesh);
 		glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
 	glBindVertexArray(0);
@@ -206,6 +207,25 @@ void Mesh::draw()
 			glDrawArrays(GL_LINES, 0, this->normalsOnVetices.size());
 		glBindVertexArray(0);
 	}
+}
+
+void Mesh::translate(glm::vec3 translation)
+{
+	this->transform[3][0] += translation[0];
+	this->transform[3][1] += translation[1];
+	this->transform[3][2] += translation[2];
+}
+
+void Mesh::scale(glm::vec3 scaling)
+{
+	this->transform[0][0] *= scaling[0];
+	this->transform[1][1] *= scaling[1];
+	this->transform[2][2] *= scaling[2];
+}
+
+void Mesh::rotate(glm::mat3 rotation)
+{
+
 }
 
 Mesh::~Mesh()

@@ -14,10 +14,11 @@ uniform mat4 View;
 uniform mat4 Projection;
 uniform vec3 PosLamp01;
 uniform vec3 PosCamera;
+uniform mat4 Transform;
 
 void main()
 {
-	gl_Position =  Projection*View*Model * vec4(vertexPosition_modelspace,1);
+	gl_Position =  Projection*View*Model * Transform*vec4(vertexPosition_modelspace,1);
 	Position_worldspace = (Model * vec4(vertexPosition_modelspace,1)).xyz;
 
 	Normal_cameraspace = (View * Model * vec4(vertexNormal, 0)).xyz;

@@ -26,6 +26,7 @@ protected:
 	std::vector<glm::vec3> normalsOnVetices;
 	std::vector<glm::vec2> uvs;
 	glm::vec3 color;
+	glm::mat4 transform;
 
 	GLuint VBO_Vertices;
 	GLuint VBO_Normals;
@@ -44,7 +45,11 @@ public:
 	Mesh(const char* filename);
 	
 	void loadOBJ(const char* filename);
-	void draw();
+	void draw(GLuint shaderID);
+
+	void translate(glm::vec3 translation);
+	void scale(glm::vec3 scaling);
+	void rotate(glm::mat3 rotation);
 
 	bool isLoaded() {return this->loaded;}
 	void enableNormal() {this->drawNormal = true;}
