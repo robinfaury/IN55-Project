@@ -84,8 +84,8 @@ void OpenGLWindow::run()
 			glUniformMatrix4fv(glGetUniformLocation(shader->getProgramID(), "Projection"), 1, GL_FALSE, &Projection[0][0]);
 
 			glm::vec3 pos = (*listOfLamp)[0]->getPosition();
-			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosCamera"), pos.x, pos.y, pos.z);
-			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosLamp01"), posCam.x, posCam.y, posCam.z);
+			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosCamera"), posCam.x, posCam.y, posCam.z);
+			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosLamp01"), pos.x, pos.y, pos.z);
 			for (std::vector<Mesh*>::iterator worldObject = listOfMesh->begin(); worldObject != listOfMesh->end(); ++worldObject)
 			{
 				(*worldObject)->draw();

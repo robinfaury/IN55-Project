@@ -2,6 +2,8 @@
 #define MESH_H_
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
 
 #include <glm.hpp>
