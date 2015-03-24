@@ -1,14 +1,16 @@
 #ifndef MESH_H_
 #define MESH_H_
 
+#include <iostream>
+#include <fstream>
+#include <string>
 #include <vector>
 
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 
 #include <SFML/Graphics.hpp>
-
-#include "Shader.h"
+#include <GL/glew.h>
 
 
 #ifndef BUFFER_OFFSET
@@ -18,32 +20,35 @@
 class Mesh
 {
 protected:
-	Shader* shader;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> colors;
 	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> normalsOnVetices;
 	std::vector<glm::vec2> uvs;
 	glm::vec3 color;
 
-	GLuint vertexBufferID;
-	GLuint normalBufferID;
-	GLuint VAOID;
+	GLuint VBO_Vertices;
+	GLuint VBO_Normals;
+	GLuint VAO_Mesh;
+
+	GLuint VBO_NormalsOnVetices;
+	GLuint VAO_Normals;
 
 	bool loaded;
+	bool drawNormal;
 	
 	void loadMesh();
 
 public:
 	Mesh();
 	Mesh(const char* filename);
-	Mesh(const char* filename, Shader* shader);
 	
 	void loadOBJ(const char* filename);
-	void draw(glm::mat4 &model, glm::mat4 &view, glm::mat4 &projection);
+	void draw();
 
 	bool isLoaded() {return this->loaded;}
-
-	void setShader(Shader* shader) {this->shader = shader;}
+	void enableNormal() {this->drawNormal = true;}
+	void disableNormal() {this->drawNormal = false;}
 
 	~Mesh();
 };
