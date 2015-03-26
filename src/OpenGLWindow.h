@@ -4,6 +4,7 @@
 #include "World.h"
 #include "EventStyle.h"
 #include <SFML/OpenGL.hpp>
+#include "InteractionWindow.h"
 
 class OpenGLWindow
 {
@@ -11,6 +12,7 @@ private:
 	World world;
 	EventStyle eventStyle;
 	sf::Window* window;
+	InteractionWindow interactWindow;
 
 public:
 	OpenGLWindow();

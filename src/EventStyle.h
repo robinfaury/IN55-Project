@@ -4,12 +4,14 @@
 #include <SFML/Graphics.hpp>
 
 #include "World.h"
+#include "InteractionWindow.h"
 
 class EventStyle
 {
 private:
 	World* world;
 	sf::Window* window;
+	InteractionWindow* interactWindow;
 
 public:
 	EventStyle();
@@ -17,7 +19,7 @@ public:
 	void interpretEvent(sf::Event e);
 
 	// Setter
-	void setWindow(sf::Window* window) {this->window = window;}
+	void setWindow(sf::Window* window, InteractionWindow* interactWindow) { this->window = window; this->interactWindow = interactWindow; }
 
 	~EventStyle();
 };
