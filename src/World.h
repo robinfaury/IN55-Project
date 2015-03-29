@@ -6,6 +6,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 #include "Plan.h"
+#include "Icosphere.h"
 #include "Lamp.h"
 
 class World

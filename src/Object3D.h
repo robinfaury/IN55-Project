@@ -46,7 +46,7 @@ public:
 
 	void init();
 	
-	void draw(GLuint shaderID);
+	virtual void draw(GLuint shaderID);
 
 	void translate(glm::vec3 translation);
 	void scale(glm::vec3 scaling);

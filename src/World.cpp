@@ -9,15 +9,18 @@ void World::createScene()
 	this->listOfShader.push_back(new Shader("../IN55-Project/res/shader/basic.vert", "../IN55-Project/res/shader/basic.frag"));
 	this->listOfShader.push_back(new Shader("../IN55-Project/res/shader/picking.vert", "../IN55-Project/res/shader/picking.frag"));
 
-	this->listOfMesh.push_back(new Mesh("../IN55-Project/res/cube_n.obj"));
-	this->listOfMesh[this->listOfMesh.size()-1]->translate(glm::vec3(0.0, 1.0, 0.0));
-	this->listOfMesh[this->listOfMesh.size()-1]->rotate(45, glm::vec3(0.0, 1.0, 0.0), 0);
-	this->listOfMesh[this->listOfMesh.size()-1]->setColor(glm::vec3(1.0, 0.0, 0.3));
+	//this->listOfMesh.push_back(new Mesh("../IN55-Project/res/cube_n.obj"));
+	//this->listOfMesh[this->listOfMesh.size()-1]->translate(glm::vec3(0.0, 1.0, 0.0));
+	//this->listOfMesh[this->listOfMesh.size()-1]->rotate(45, glm::vec3(0.0, 1.0, 0.0), 0);
+	//this->listOfMesh[this->listOfMesh.size()-1]->setColor(glm::vec3(1.0, 0.0, 0.3));
 	//this->listOfMesh.push_back(new Mesh("../IN55-Project/res/sphere_n.obj"));
 	//this->listOfMesh[this->listOfMesh.size()-1]->scale(glm::vec3(0.5, 1.0, 0.5));
 	//this->listOfMesh.push_back(new Mesh("../IN55-Project/res/Big_Ben.obj"));
-	this->listOfMesh.push_back(new Plan());
-	this->listOfMesh[this->listOfMesh.size()-1]->scale(glm::vec3(4.0, 4.0, 4.0));
+	//this->listOfMesh.push_back(new Plan());
+	//this->listOfMesh[this->listOfMesh.size()-1]->scale(glm::vec3(4.0, 4.0, 4.0));
+	this->listOfMesh.push_back(new Icosphere());
+	//this->listOfMesh[this->listOfMesh.size()-1]->translate(glm::vec3(0.0, 0.5, 0.0));
+	
 	//this->listOfMesh.push_back(new Mesh("../IN55-Project/res/plan_n.obj"));
 
 	this->listOfTexture.push_back(new sf::Texture());
