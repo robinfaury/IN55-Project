@@ -1,7 +1,7 @@
 #pragma once
 
 #include <list>
-#include "Observer"
+#include "Observer.h"
 
 using namespace std;
 
@@ -16,12 +16,12 @@ private:
 	typedef std::list<Observer*>::const_iterator const_iterator;
 
 public:
-	void AddObs(Observer* obs);
-	void DelObs(Observer* obs);
+	void addObs(Observer* obs);
+	void delObs(Observer* obs);
 
-	virtual Info Statut(void) const = 0;
+	virtual Info status(void) const = 0;
 	virtual ~Observable();
 protected:
-	void Notify(void);
+	void notify(void);
 
 };

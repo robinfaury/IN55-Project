@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INTERACTIONWINDOW_H_
+#define INTERACTIONWINDOW_H_
 
 #include <vector>
 #include "SFML\Graphics.hpp"
@@ -42,4 +43,6 @@ protected:
 	vector<Button*> m_buttons;
 
 };
+
+#endif
 

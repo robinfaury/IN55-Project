@@ -10,12 +10,12 @@ Observable::~Observable()
 {
 }
 
-void Observable::AddObs(Observer* obs)
+void Observable::addObs(Observer* obs)
 {
 	m_list.push_back(obs);
 }
 
-void Observable::DelObs(Observer* obs)
+void Observable::delObs(Observer* obs)
 {
 	for (list<Observer*>::iterator it = m_list.begin(); it != m_list.end(); ++it)
 	{
