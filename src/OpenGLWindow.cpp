@@ -1,16 +1,16 @@
 #include "OpenGLWindow.h"
 
-OpenGLWindow::OpenGLWindow()
+OpenGLWindow::OpenGLWindow() : interactWindow(sf::VideoMode(400, 100))
 {
 	this->window = new sf::Window(sf::VideoMode(800, 600), "test");
 }
 
-OpenGLWindow::OpenGLWindow(int height, int width, std::string name)
+OpenGLWindow::OpenGLWindow(int height, int width, std::string name) : interactWindow(sf::VideoMode(400, 100))
 {
 	this->window = new sf::Window(sf::VideoMode(height, width), name);
 }
 
-OpenGLWindow::OpenGLWindow(int height, int width, std::string name, int antialiasingLevel, int depthBits, int majorVersion, int minorVersion, int stencilBits)
+OpenGLWindow::OpenGLWindow(int height, int width, std::string name, int antialiasingLevel, int depthBits, int majorVersion, int minorVersion, int stencilBits) : interactWindow(sf::VideoMode(400, 100))
 {
 	sf::ContextSettings setting;
 	setting.antialiasingLevel = antialiasingLevel;
@@ -47,7 +47,7 @@ void OpenGLWindow::createWorld()
 
 void OpenGLWindow::run()
 {
-	this->eventStyle.setWindow(this->window);
+	this->eventStyle.setWindow(this->window, &this->interactWindow);
 	glm::mat4 modelView;
 	glm::mat4 projection;
 	sf::Event Event;
@@ -95,12 +95,20 @@ void OpenGLWindow::run()
 			}
 		glUseProgram(0);
 
+		// Interaction window stuff
+		if (interactWindow.isRunning())
+		{
+			interactWindow.processEvents();
+			interactWindow.draw();
+		}
+
 		this->window->display();
 
 		alpha += 0.01;
 
 		end_time = std::chrono::high_resolution_clock::now();
 		std::cout <<"frame time : "<< std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
+
 	}
 }
 
