@@ -1,28 +1,20 @@
 #include "Mesh.h"
 
-Mesh::Mesh()
+
+Mesh::Mesh() : Object3D()
 {
-	this->VBO_Vertices = 0;
-	this->VBO_Normals = 0;
-	this->VBO_NormalsOnVetices = 0;
-	this->VAO_Mesh = 0;
-	this->VAO_Normals = 0;
-	this->color = glm::vec3(1.0, 0.0, 1.0);
 	this->loaded = false;
-	this->drawNormal = false;
 }
 
-Mesh::Mesh(const char* filename)
+Mesh::Mesh(const char* filename) : Object3D()
 {
-	this->VBO_Vertices = 0;
-	this->VBO_Normals = 0;
-	this->VBO_NormalsOnVetices = 0;
-	this->VAO_Mesh = 0;
-	this->VAO_Normals = 0;
-	this->color = glm::vec3(1.0, 0.0, 1.0);
 	this->loaded = false;
-	this->drawNormal = false;
+
 	loadOBJ(filename);
+
+	computeNormalOnVertex();
+
+	loadVBO();
 }
 
 void Mesh::loadOBJ(const char* filename)
@@ -113,6 +105,7 @@ void Mesh::loadOBJ(const char* filename)
 		}
 	}
 
+
 	for (unsigned int i=0; i<vertexIndices.size(); i++)
 	{
 		unsigned int vertexIndex = vertexIndices[i];
@@ -128,95 +121,11 @@ void Mesh::loadOBJ(const char* filename)
 			this->normals.push_back(glm::vec3(tempNormals[normalIndex-1]));
 		}
 	}
-	if (tempNormals.size() > 0)
-	{
-		for (unsigned int i=0; i<vertexIndices.size(); i++)
-		{
-			this->normalsOnVetices.push_back(this->vertices[i]);
-			this->normalsOnVetices.push_back(this->vertices[i]+this->normals[i]);
-		}
-	}
-
-	loadMesh();
 
 	this->loaded = true;
 }
 
-void Mesh::loadMesh()
-{
-	/***********************VBO Vertices***********************/
-	if (glIsBuffer(this->VBO_Vertices) == GL_TRUE)
-		glDeleteBuffers(1, &this->VBO_Vertices);
-	glGenBuffers(1, &this->VBO_Vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_Vertices);
-		glBufferData(GL_ARRAY_BUFFER, this->vertices.size()*sizeof(glm::vec3), &this->vertices[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	/***********************VBO Normals***********************/
-	if (glIsBuffer(this->VBO_Normals) == GL_TRUE)
-		glDeleteBuffers(1, &this->VBO_Normals);
-	glGenBuffers(1, &this->VBO_Normals);
-	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_Normals);
-		glBufferData(GL_ARRAY_BUFFER, this->normals.size()*sizeof(glm::vec3), &this->normals[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	/***********************VBO NormalsOnVetices***********************/
-	if (glIsBuffer(this->VBO_NormalsOnVetices) == GL_TRUE)
-		glDeleteBuffers(1, &this->VBO_NormalsOnVetices);
-	glGenBuffers(1, &this->VBO_NormalsOnVetices);
-	glBindBuffer(GL_ARRAY_BUFFER, this->VBO_NormalsOnVetices);
-		glBufferData(GL_ARRAY_BUFFER, this->normalsOnVetices.size()*sizeof(glm::vec3), &this->normalsOnVetices[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	/***********************VAO Mesh***********************/
-	if (glIsVertexArray(this->VAO_Mesh == GL_TRUE))
-		glDeleteVertexArrays(1, &this->VAO_Mesh);
-	glGenVertexArrays(1, &this->VAO_Mesh);
-	glBindVertexArray(this->VAO_Mesh);
-		glBindBuffer(GL_ARRAY_BUFFER, this->VBO_Vertices);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-			glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, this->VBO_Normals);
-			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-			glEnableVertexAttribArray(1);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-	/***********************VAO Normals***********************/
-	if (glIsVertexArray(this->VAO_Normals == GL_TRUE))
-		glDeleteVertexArrays(1, &this->VAO_Normals);
-	glGenVertexArrays(1, &this->VAO_Normals);
-	glBindVertexArray(this->VAO_Normals);
-		glBindBuffer(GL_ARRAY_BUFFER, this->VBO_NormalsOnVetices);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
-			glEnableVertexAttribArray(0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-}
-
-void Mesh::draw()
-{
-	glBindVertexArray(this->VAO_Mesh);
-		glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
-	glBindVertexArray(0);
-	if (this->drawNormal)
-	{
-		glBindVertexArray(this->VAO_Normals);
-			glDrawArrays(GL_LINES, 0, this->normalsOnVetices.size());
-		glBindVertexArray(0);
-	}
-}
-
 Mesh::~Mesh()
 {
-	glDeleteBuffers(1, &this->VBO_Vertices);
-	glDeleteBuffers(1, &this->VBO_Normals);
-	glDeleteBuffers(1, &this->VBO_NormalsOnVetices);
-	glDeleteVertexArrays(1, &this->VAO_Mesh);
-	glDeleteVertexArrays(1, &this->VAO_Normals);
-	this->vertices.clear();
-	this->normals.clear();
-	this->normalsOnVetices.clear();
-	this->uvs.clear();
+	
 }

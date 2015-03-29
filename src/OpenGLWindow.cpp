@@ -20,7 +20,7 @@ OpenGLWindow::OpenGLWindow(int height, int width, std::string name, int antialia
 	setting.stencilBits = stencilBits;
 
 	this->window = new sf::Window(sf::VideoMode(height, width), name, sf::Style::Default, setting);
-	this->window->setVerticalSyncEnabled(true);
+	this->window->setFramerateLimit(30);
 
 	setting = this->window->getSettings();
 	std::cout<<"Antialiasing Level : "<<setting.antialiasingLevel<<std::endl;
@@ -50,14 +50,17 @@ void OpenGLWindow::run()
 	this->eventStyle.setWindow(this->window, &this->interactWindow);
 	glm::mat4 modelView;
 	glm::mat4 projection;
-	glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
+	sf::Event Event;
 
 	/******************* SFML Loop *******************/
 	double alpha = 0.0;
 	double radius = 2.0;
+	std::chrono::system_clock::time_point start_time, end_time;
 	while (this->window->isOpen()) 
 	{
-		sf::Event Event;
+		start_time = std::chrono::high_resolution_clock::now();
+		glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
+		
 		while (this->window->pollEvent(Event)) 
 			this->eventStyle.interpretEvent(Event);
 
@@ -74,7 +77,7 @@ void OpenGLWindow::run()
 		glm::mat4 MVP        = Projection * View * Model;
 
 		std::vector<Shader*>* listOfShader = this->world.GetListOfShader();
-		std::vector<Mesh*>* listOfMesh = this->world.GetListOfMesh();
+		std::vector<Object3D*>* listOfMesh = this->world.GetListOfMesh();
 		std::vector<Lamp*>* listOfLamp = this->world.GetListOfLamp();
 		Shader* shader = (*listOfShader)[0];
 
@@ -86,22 +89,26 @@ void OpenGLWindow::run()
 			glm::vec3 pos = (*listOfLamp)[0]->getPosition();
 			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosCamera"), posCam.x, posCam.y, posCam.z);
 			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosLamp01"), pos.x, pos.y, pos.z);
-			for (std::vector<Mesh*>::iterator worldObject = listOfMesh->begin(); worldObject != listOfMesh->end(); ++worldObject)
+			for (std::vector<Object3D*>::iterator worldObject = listOfMesh->begin(); worldObject != listOfMesh->end(); ++worldObject)
 			{
-				(*worldObject)->draw();
+				(*worldObject)->draw(shader->getProgramID());
 			}
 		glUseProgram(0);
 
-		this->window->display();
-
-		alpha += 0.01;
-
-		//Interaction window stuff
+		// Interaction window stuff
 		if (interactWindow.isRunning())
 		{
 			interactWindow.processEvents();
 			interactWindow.draw();
 		}
+
+		this->window->display();
+
+		alpha += 0.01;
+
+		end_time = std::chrono::high_resolution_clock::now();
+		std::cout <<"frame time : "<< std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
+
 	}
 }
 

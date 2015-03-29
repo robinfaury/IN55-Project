@@ -10,13 +10,14 @@ in vec3 EyeDirection_cameraspace;
 out vec3 color;
 
 uniform vec3 PosLamp01;
+uniform vec3 ObjectColor;
 
 void main()
 {
 	vec3 LightColor = vec3(1,1,1);
-	float LightPower = 30.0f;
+	float LightPower = 40.0f;
 
-	vec3 MaterialDiffuseColor = vec3(1.0, 0.0, 0.0);
+	vec3 MaterialDiffuseColor = ObjectColor;
 	vec3 MaterialAmbientColor = vec3(0.1,0.1,0.1) * MaterialDiffuseColor;
 	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
 
@@ -28,6 +29,6 @@ void main()
 	vec3 R = reflect(-L, N);
 	vec3 i_a = MaterialAmbientColor;
 	vec3 i_d = MaterialDiffuseColor * LightColor * LightPower * clamp(dot(L, N), 0, 1) / (distance*distance);
-	vec3 i_s = MaterialSpecularColor * LightColor * LightPower * pow(clamp(dot(E, R), 0, 1), 50) / (distance*distance);
+	vec3 i_s = MaterialSpecularColor * LightColor * LightPower * pow(clamp(dot(E, R), 0, 1), 500) / (distance*distance);
 	color = i_a + i_d + i_s;
 }
