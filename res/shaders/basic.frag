@@ -5,19 +5,27 @@ in vec3 Position_worldspace;
 in vec3 Normal_cameraspace;
 in vec3 LightDirection_cameraspace;
 in vec3 EyeDirection_cameraspace;
+in vec2 UV;
 
 // Ouput data
 out vec3 color;
 
 uniform vec3 PosLamp01;
 uniform vec3 ObjectColor;
+uniform int isNormals;
+uniform int isTexture;
+uniform sampler2D Tex01;
 
 void main()
 {
 	vec3 LightColor = vec3(1,1,1);
 	float LightPower = 40.0f;
 
-	vec3 MaterialDiffuseColor = ObjectColor;
+	vec3 MaterialDiffuseColor;
+	if (isTexture == 1)
+		MaterialDiffuseColor = texture(Tex01, UV).rgb;
+	else
+		MaterialDiffuseColor = ObjectColor;
 	vec3 MaterialAmbientColor = vec3(0.1,0.1,0.1) * MaterialDiffuseColor;
 	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
 
