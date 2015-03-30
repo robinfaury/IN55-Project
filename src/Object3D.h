@@ -17,7 +17,7 @@
 	#define	BUFFER_OFFSET(offset) ((char*)NULL + (offset))
 #endif
 
-class Object3D
+class Object3D	
 {
 protected:
 	std::vector<glm::vec3> vertices;
@@ -31,12 +31,14 @@ protected:
 
 	GLuint VBO_Vertices;
 	GLuint VBO_Normals;
+	GLuint VBO_UVs;
 	GLuint VAO_Mesh;
 
 	GLuint VBO_NormalsOnVetices;
 	GLuint VAO_Normals;
 
 	bool drawNormal;
+	int drawingMode;
 	
 	void loadVBO();
 	void computeNormalOnVertex();

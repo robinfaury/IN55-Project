@@ -6,9 +6,10 @@ Mesh::Mesh() : Object3D()
 	this->loaded = false;
 }
 
-Mesh::Mesh(const char* filename) : Object3D()
+Mesh::Mesh(const char* filename, int drawingMode) : Object3D()
 {
 	this->loaded = false;
+	this->drawingMode = drawingMode;
 
 	loadOBJ(filename);
 

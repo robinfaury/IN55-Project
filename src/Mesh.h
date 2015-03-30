@@ -10,7 +10,7 @@ private:
 
 public:
 	Mesh();
-	Mesh(const char* filename);
+	Mesh(const char* filename, int drawingMode);
 	
 	bool isLoaded() {return this->loaded;}
 	void loadOBJ(const char* filename);
