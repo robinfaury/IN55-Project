@@ -37,7 +37,7 @@ OpenGLWindow::OpenGLWindow(int height, int width, std::string name, int antialia
 	glEnable(GL_DEPTH_TEST);
 	//glDepthFunc(GL_LESS);
 	//glDisable(GL_LIGHTING);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 }
 
 void OpenGLWindow::createWorld()

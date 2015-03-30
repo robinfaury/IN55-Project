@@ -7,6 +7,8 @@ using namespace std;
 
 typedef int Info;
 
+class Observer;
+
 class Observable
 {
 private:
