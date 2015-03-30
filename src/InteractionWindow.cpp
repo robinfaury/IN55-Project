@@ -31,7 +31,7 @@ InteractionWindow::InteractionWindow(sf::VideoMode videoMode) : m_window(videoMo
 
 InteractionWindow::~InteractionWindow()
 {
-	
+
 }
 
 bool InteractionWindow::isRunning()

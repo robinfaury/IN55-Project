@@ -16,6 +16,15 @@ enum FONT_TYPE
 
 class InteractionWindow
 {
+protected:
+
+	sf::RenderWindow m_window;
+
+	bool m_running;
+
+	vector<sf::Font> m_fonts;
+	vector<Button*> m_buttons;
+
 public:
 	InteractionWindow(sf::VideoMode videoMode);
 	~InteractionWindow();
@@ -32,15 +41,6 @@ public:
 	void draw();
 
 	//TODO: add buttons
-
-protected:
-
-	sf::RenderWindow m_window;
-
-	bool m_running;
-
-	vector<sf::Font> m_fonts;
-	vector<Button*> m_buttons;
 
 };
 
