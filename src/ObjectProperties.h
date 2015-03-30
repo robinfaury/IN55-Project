@@ -1,18 +1,16 @@
 #ifndef OBJECTPROPERTIES_H_
 #define OBJECTPROPERTIES_H_
 
-#include "Observer.h"
+#include <iostream>
 
-class ObjectProperties : public Observer
+#include "IObserver.h"
+
+class ObjectProperties : public IObserver
 {
-
-protected:
-	std::list<Observable*> m_observables;
-
 public:
 	ObjectProperties();
 
-	void update(const Observable * obs) const;
+	void update(std::string data);
 
 	~ObjectProperties();
 };

@@ -1,6 +1,6 @@
 #include "ObjectProperties.h"
 
-ObjectProperties::ObjectProperties() : Observer()
+ObjectProperties::ObjectProperties()
 {
 
 }
@@ -8,4 +8,9 @@ ObjectProperties::ObjectProperties() : Observer()
 ObjectProperties::~ObjectProperties()
 {
 	
+}
+
+void ObjectProperties::update(std::string data)
+{
+
 }
