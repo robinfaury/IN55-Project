@@ -2,7 +2,7 @@
 
 OpenGLWindow::OpenGLWindow() : interactWindow(sf::VideoMode(400, 100))
 {
-	this->window = new sf::Window(sf::VideoMode(800, 600), "test");
+	this->window = new sf::Window(sf::VideoMode(800, 600), "Default name");
 }
 
 OpenGLWindow::OpenGLWindow(int height, int width, std::string name) : interactWindow(sf::VideoMode(400, 100))
