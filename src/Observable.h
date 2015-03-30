@@ -1,29 +1,36 @@
 #pragma once
 
-#include <list>
-#include "Observer.h"
+#include <string>
+#include <set>
+#include "Observer"
 
 using namespace std;
 
 typedef int Info;
 
-class Observer;
-
 class Observable
 {
 private:
-	std::list<Observer*> m_list;
-
-	typedef std::list<Observer*>::iterator iterator;
-	typedef std::list<Observer*>::const_iterator const_iterator;
+	set<IObserver*> list_observers;
 
 public:
-	void addObs(Observer* obs);
-	void delObs(Observer* obs);
+	void notify(string data) const
+	{
+		// Notifier tous les observers
+		for (set<IObserver*>::const_iterator it = list_observers.begin();
+			it != list_observers.end(); ++it)
+			(*it)->update(data);
+	}
 
-	virtual Info status(void) const = 0;
-	virtual ~Observable();
-protected:
-	void notify(void);
+	void addObserver(IObserver* observer)
+	{
+		// Ajouter un observer a la liste
+		list_observers.insert(observer);
+	}
 
+	void removeObserver(IObserver* observer)
+	{
+		// Enlever un observer a la liste
+		list_observers.erase(observer);
+	}
 };
