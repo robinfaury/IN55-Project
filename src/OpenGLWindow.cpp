@@ -70,7 +70,7 @@ void OpenGLWindow::run()
 		glm::mat4 Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 		glm::mat4 View       = glm::lookAt(
 									posCam,
-									glm::vec3(0,0,0),
+									glm::vec3(0,1,0),
 									glm::vec3(0,1,0)
 							   );
 		glm::mat4 Model      = glm::mat4(1.0f);
