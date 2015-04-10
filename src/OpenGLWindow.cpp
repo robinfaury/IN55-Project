@@ -77,8 +77,9 @@ void OpenGLWindow::run()
 		glm::mat4 MVP        = Projection * View * Model;
 
 		std::vector<Shader*>* listOfShader = this->world.GetListOfShader();
-		std::vector<Object3D*>* listOfMesh = this->world.GetListOfMesh();
+		std::vector<Object3D*>* listOfObjects3D = this->world.GetListOfObjects3D();
 		std::vector<Lamp*>* listOfLamp = this->world.GetListOfLamp();
+		std::vector<ParticleSystem*>* listOfParticleSystem = this->world.GetListOfParticleSystem();
 		Shader* shader = (*listOfShader)[0];
 
 		glUseProgram(shader->getProgramID());
@@ -89,11 +90,23 @@ void OpenGLWindow::run()
 			glm::vec3 pos = (*listOfLamp)[0]->getPosition();
 			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosCamera"), posCam.x, posCam.y, posCam.z);
 			glUniform3f(glGetUniformLocation(shader->getProgramID(), "PosLamp01"), pos.x, pos.y, pos.z);
-			for (std::vector<Object3D*>::iterator worldObject = listOfMesh->begin(); worldObject != listOfMesh->end(); ++worldObject)
+			for (std::vector<Object3D*>::iterator worldObject = listOfObjects3D->begin(); worldObject != listOfObjects3D->end(); ++worldObject)
 			{
 				(*worldObject)->draw(shader->getProgramID());
 			}
 		glUseProgram(0);
+		shader = (*listOfShader)[2];
+		glUseProgram(shader->getProgramID());
+			glUniformMatrix4fv(glGetUniformLocation(shader->getProgramID(), "Model"), 1, GL_FALSE, &Model[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(shader->getProgramID(), "View"), 1, GL_FALSE, &View[0][0]);
+			glUniformMatrix4fv(glGetUniformLocation(shader->getProgramID(), "Projection"), 1, GL_FALSE, &Projection[0][0]);
+			for (std::vector<ParticleSystem*>::iterator particleSystem = listOfParticleSystem->begin(); particleSystem != listOfParticleSystem->end(); ++particleSystem)
+			{
+				(*particleSystem)->draw(shader->getProgramID());
+			}
+		glUseProgram(0);
+
+		this->world.callPhysicalSystem();
 
 		// Interaction window stuff
 		if (interactWindow.isRunning())

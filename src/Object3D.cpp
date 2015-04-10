@@ -97,9 +97,22 @@ void Object3D::loadVBO()
 
 void Object3D::draw(GLuint shaderID)
 {
+	glUniformMatrix4fv(glGetUniformLocation(shaderID, "Transform"), 1, GL_FALSE, &this->transform[0][0]);
+	privateDraw(shaderID);
+}
+
+void Object3D::draw(GLuint shaderID, glm::mat4 transform)
+{
+	glUniformMatrix4fv(glGetUniformLocation(shaderID, "Transform"), 1, GL_FALSE, &transform[0][0]);
+	privateDraw(shaderID);
+}
+
+
+void Object3D::privateDraw(GLuint shaderID)
+{
 	if (this->texture != NULL)
 		sf::Texture::bind(this->texture);
-	glUniformMatrix4fv(glGetUniformLocation(shaderID, "Transform"), 1, GL_FALSE, &this->transform[0][0]);
+	
 	glUniform3f(glGetUniformLocation(shaderID, "ObjectColor"), this->color.x, this->color.y, this->color.z);
 	glUniform3f(glGetUniformLocation(shaderID, "ObjectColorID"), this->colorID.x, this->colorID.y, this->colorID.z);
 	glUniform1i(glGetUniformLocation(shaderID, "isNormals"), !this->normals.empty());
@@ -107,6 +120,7 @@ void Object3D::draw(GLuint shaderID)
 	glBindVertexArray(this->VAO_Mesh);
 		glDrawArrays(this->drawingMode, 0, this->vertices.size());
 	glBindVertexArray(0);
+
 	if (this->texture != NULL)
 		sf::Texture::bind(NULL);
 

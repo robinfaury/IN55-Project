@@ -42,6 +42,7 @@ protected:
 	
 	void loadVBO();
 	void computeNormalOnVertex();
+	void privateDraw(GLuint shaderID);
 
 public:
 	Object3D();
@@ -49,6 +50,7 @@ public:
 	void init();
 	
 	virtual void draw(GLuint shaderID);
+	virtual void draw(GLuint shaderID, glm::mat4 transform);
 
 	void translate(glm::vec3 translation);
 	void scale(glm::vec3 scaling);
