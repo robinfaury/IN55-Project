@@ -1,12 +1,16 @@
-#include "OpenGLWindow.h"
+#include <iostream>
 
-int main(int argc, char* argv[]) 
+#include "Engine.h"
+
+int main(int argc, char* argv[])
 {
-	OpenGLWindow openGLWindow(800, 600, "Project IN55", 8, 24, 3, 3, 8);
+	srand (static_cast <unsigned> (time(0)));
 
-	openGLWindow.createWorld();
+	Engine engine;
 
-	openGLWindow.run();
+	engine.setOpenGLParametters(8, 24, 3, 3, 8);
+	engine.init(800, 600, "IN55 - Project");
+	engine.run();
 
-	return EXIT_SUCCESS;
+	return 0;
 }

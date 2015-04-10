@@ -19,7 +19,7 @@ uniform sampler2D Tex01;
 void main()
 {
 	vec3 LightColor = vec3(1,1,1);
-	float LightPower = 40.0f;
+	float LightPower = 20.0f;
 
 	vec3 MaterialDiffuseColor;
 	if (isTexture == 1)
