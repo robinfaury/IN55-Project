@@ -1,16 +1,12 @@
-#include <iostream>
-
 #include "Engine.h"
 
 int main(int argc, char* argv[])
 {
-	srand (static_cast <unsigned> (time(0)));
+	Engine gameEngine;
 
-	Engine engine;
-
-	engine.setOpenGLParametters(8, 24, 3, 3, 8);
-	engine.init(800, 600, "IN55 - Project");
-	engine.run();
+	gameEngine.InitializeWindow("Master of Particles", 800, 600, 3, 3, 4, 24, 8);
+	gameEngine.init();
+	gameEngine.run();
 
 	return 0;
 }

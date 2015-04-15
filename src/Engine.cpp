@@ -3,41 +3,27 @@
 
 Engine::Engine()
 {
-	this->window = NULL;
-	this->antialiasingLevel = 4;
-	this->depthBits = 24;
-	this->majorVersion = 3;
-	this->minorVersion = 3;
-	this->stencilBits = 8;
+	this->renderWindow = NULL;
 }
 
-void Engine::setOpenGLParametters(int antialiasingLevel, int depthBits, int majorVersion, int minorVersion, int stencilBits)
+void Engine::InitializeWindow(std::string windowName, int height, int width, int OpenGLMajorVersion, int OpenGLMinorVersion, int antialiasingLevel, int depthBits, int stencilBits)
 {
-	this->window = NULL;
-	this->antialiasingLevel = antialiasingLevel;
-	this->depthBits = depthBits;
-	this->majorVersion = majorVersion;
-	this->minorVersion = minorVersion;
-	this->stencilBits = stencilBits;
-}
+	sf::ContextSettings settings;
+	settings.depthBits = depthBits;
+	settings.stencilBits = stencilBits;
+	settings.antialiasingLevel = antialiasingLevel;
+	settings.majorVersion = OpenGLMajorVersion;
+	settings.minorVersion = OpenGLMinorVersion;
 
-void Engine::openWindow()
-{
-	sf::ContextSettings setting;
-	setting.antialiasingLevel = this->antialiasingLevel;
-	setting.depthBits = this->depthBits;
-	setting.majorVersion = this->majorVersion;
-	setting.minorVersion = this->minorVersion;
-	setting.stencilBits = this->stencilBits;
+	this->renderWindow = new sf::Window(sf::VideoMode(height, width), windowName, sf::Style::Default, settings);
+	this->renderWindow->setVerticalSyncEnabled(true);
+	this->renderWindow->setFramerateLimit(30);
 
-	this->window = new sf::Window(sf::VideoMode(this->sizeWindow_x, this->sizeWindow_y), this->windowName, sf::Style::Default, setting);
-	this->window->setFramerateLimit(30);
-
-	setting = this->window->getSettings();
-	std::cout<<"Antialiasing Level : "<<setting.antialiasingLevel<<std::endl;
-	std::cout<<"Depth Bits : "<<setting.depthBits<<std::endl;
-	std::cout<<"Stencil Bits : "<<setting.stencilBits<<std::endl;
-	std::cout<<"OpenGL Version : "<<setting.majorVersion<<"."<<setting.minorVersion<<std::endl;
+	settings = this->renderWindow->getSettings();
+	std::cout << "depth bits:" << settings.depthBits << std::endl;
+	std::cout << "stencil bits:" << settings.stencilBits << std::endl;
+	std::cout << "antialiasing level:" << settings.antialiasingLevel << std::endl;
+	std::cout << "version:" << settings.majorVersion << "." << settings.minorVersion << std::endl;
 
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK) 
@@ -45,60 +31,49 @@ void Engine::openWindow()
 		std::cout<<"ERROR : Failed to initialize GLEW"<<std::endl;
 		return;
 	}
+
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_TEXTURE_COORD_ARRAY);
-	glEnable(GL_TEXTURE);
 }
 
-void Engine::init(int sizeWindow_x, int sizeWindow_y, std::string windowName)
+void Engine::init()
 {
-	this->sizeWindow_x = sizeWindow_x;
-	this->sizeWindow_y = sizeWindow_y;
-	this->windowName = windowName;
-  	openWindow();
-	this->graphic.init();
+	this->graphic.loadLevel();
 }
 
 void Engine::run()
 {
-	std::chrono::system_clock::time_point start_time, end_time;
-
-	sf::Event event;
-	while (this->window->isOpen()) 
+	bool running = true;
+	while (running)
 	{
-		start_time = std::chrono::high_resolution_clock::now();
-
-		glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
-
-		//Event
-		while (this->window->pollEvent(event)) 
+		sf::Event event;
+		while (this->renderWindow->pollEvent(event))
 		{
-			switch(event.type)
+			if (event.type == sf::Event::Closed)
 			{
-			case sf::Event::Closed:
-				this->window->close();
-				break;
+				running = false;
+			}
+			else if (event.type == sf::Event::Resized)
+			{
+				glViewport(0, 0, event.size.width, event.size.height);
+			}
+			else if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Q)
+					running = false;
 			}
 		}
 
-		//Drawing
+		glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		this->graphic.update(0.0, 0.0, std::chrono::high_resolution_clock::now());
-		this->physic.compute(this->graphic.getStaticObject(), this->graphic.getDynamicObject());
-		this->window->display();
 
-		end_time = std::chrono::high_resolution_clock::now();
-		if (std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() >= 60)
-			std::cout <<"frame rate : "<< std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << std::endl;
+		this->graphic.draw();
+
+		this->renderWindow->display();
 	}
-
-	
 }
 
 Engine::~Engine()
 {
-	if (this->window != NULL)
-		delete this->window;
+	delete this->renderWindow;
 }
