@@ -10,7 +10,7 @@ private:
 public:
 	ParticleSystem();
 	
-	virtual void apply();
+	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale);
 
 	~ParticleSystem();
 };

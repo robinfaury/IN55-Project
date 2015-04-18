@@ -29,6 +29,13 @@ public:
 	void addLODComponant() {this->componants.push_back(new LOD());}
 	void addParticleSystemComponant() {this->componants.push_back(new ParticleSystem());}
 
+	void translate(float x, float y, float z);
+	void rotate(float alpha, float x, float y, float z);
+	void scale(float x, float y, float z);
+	void setPosition(float x, float y, float z);
+	void setRotation(float alpha, float x, float y, float z);
+	void setScaling(float x, float y, float z);
+
     void update();
 
 	~Object3D();

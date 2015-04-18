@@ -14,12 +14,13 @@ void GraphicEngine::loadShader()
 void GraphicEngine::loadTexture()
 {
 	this->textures["Grass"] = new Texture("../IN55-Project/res/images/grass.jpg", "Grass");
+	this->textures["Rock"] = new Texture("../IN55-Project/res/images/rock.jpg", "Rock");
 }
 
 void GraphicEngine::loadMaterials()
 {
 	this->materials["Basic"] = new Material(this->shaders["Basic"], "Basic");
-	this->materials["Basic"]->setTexture(this->textures["Grass"]);
+	this->materials["Basic"]->setTexture(this->textures["Rock"]);
 }
 
 void GraphicEngine::loadGeometry()
@@ -33,6 +34,13 @@ void GraphicEngine::loadObject3D()
 {
 	this->objects3D["Dragon"] = new Object3D(&this->globalInformation, this->geometry["Dragon"], "Dragon");
 	this->objects3D["Dragon"]->addGraphicRendererComponant(this->materials["Basic"]);
+	this->objects3D["Dragon"]->scale(0.2f, 0.2f, 0.2f);
+	this->objects3D["Dragon"]->rotate(30, 1.0f, 0.0f, 0.0f);
+	this->objects3D["Dragon"]->translate(1.0f, 0.0f, 0.0f);
+	this->objects3D["Dragon2"] = new Object3D(&this->globalInformation, this->geometry["Dragon"], "Dragon");
+	this->objects3D["Dragon2"]->addGraphicRendererComponant(this->materials["Basic"]);
+	this->objects3D["Dragon2"]->scale(0.2f, 0.2f, 0.2f);
+	this->objects3D["Dragon2"]->rotate(30, 1.0f, 0.0f, 0.0f);
 }
 
 void GraphicEngine::loadLevel()

@@ -11,7 +11,7 @@ protected:
 public:
 	Physic();
 
-	virtual void apply() = 0;
+	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale) = 0;
 
 	~Physic();
 };

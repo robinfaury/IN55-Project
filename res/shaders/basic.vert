@@ -16,13 +16,13 @@ uniform mat4 View;
 uniform mat4 Projection;
 uniform vec3 PosLamp01;
 uniform vec3 PosCamera;
-uniform vec3 ObjectPosition;
+uniform mat4 ObjectRotationTranslation;
 uniform vec3 ObjectScale;
 uniform vec3 ObjectColor;
 
 void main()
 {
-	vec4 vertex = vec4(ObjectPosition+ObjectScale*vertexPosition_modelspace,1);
+	vec4 vertex = ObjectRotationTranslation*vec4(ObjectScale*vertexPosition_modelspace,1);
 	gl_Position =  Projection*View*Model * vertex;
 	Position_worldspace = (Model * vertex).xyz;
 
