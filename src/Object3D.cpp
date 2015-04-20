@@ -2,29 +2,12 @@
 
 Object3D::Object3D()
 {
-
+	
 }
 
-Object3D::Object3D(GlobalInformation* globalInformation, Geometry* currentGeometry, std::string name) : Object(name)
+Object3D::Object3D(std::string name)
 {
-	this->globalInformation = globalInformation;
-	this->currentGeometry = currentGeometry;
-}
-
-void Object3D::addGraphicRendererComponant(Material* material)
-{
-	GraphicRenderer* renderer = new GraphicRenderer(this->globalInformation);
-	renderer->setGeometryToDraw(this->currentGeometry);
-	renderer->setMaterial(material);
-	this->componants.push_back(renderer);
-}
-
-void Object3D::addPhysicComponant(bool dynamic)
-{
-	if (dynamic)
-		this->componants.push_back(new Dynamic());
-	else
-		this->componants.push_back(new Static());
+	
 }
 
 void Object3D::translate(float x, float y, float z)
@@ -57,13 +40,12 @@ void Object3D::setScaling(float x, float y, float z)
 	this->transform.setScaling(glm::vec3(x, y, z));
 }
 
-void Object3D::update()
+glm::vec3 Object3D::getPostion()
 {
-	for (std::vector<Componant*>::iterator currentComponent = this->componants.begin(); currentComponent != this->componants.end(); ++currentComponent)
-		(*currentComponent)->apply(this->transform.getPosition(), this->transform.getRotation(), this->transform.getScaling());
+	return this->transform.getPosition();
 }
 
 Object3D::~Object3D()
 {
-
+	
 }

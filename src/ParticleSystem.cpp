@@ -1,6 +1,6 @@
 #include "ParticleSystem.h"
 
-ParticleSystem::ParticleSystem() : Componant()
+ParticleSystem::ParticleSystem() : GraphicComponant()
 {
 
 }

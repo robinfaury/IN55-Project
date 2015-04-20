@@ -1,10 +1,10 @@
 #ifndef _PARTICLE_H
 #define _PARTICLE_H
 
-#include "Object3D.h"
+#include "GraphicObject3D.h"
 
 
-class Particle: public Object3D
+class Particle: public GraphicObject3D
 {
 private:
 

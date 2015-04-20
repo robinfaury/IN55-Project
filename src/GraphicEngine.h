@@ -8,9 +8,8 @@
 #include "Cube.h"
 #include "Plan.h"
 #include "Point.h"
-#include "Object3D.h"
+#include "GraphicObject3D.h"
 #include "OBJLoader.h"
-#include "GlobalInformation.h"
 
 class GraphicEngine
 {
@@ -19,7 +18,8 @@ private:
 	std::map<std::string, Texture*> textures;
 	std::map<std::string, Material*> materials;
 	std::map<std::string, Geometry*> geometry;
-	std::map<std::string, Object3D*> objects3D;
+	std::map<std::string, GraphicObject3D*> objects3D;
+	std::map<std::string, Camera*> cameras;
 
 	OBJLoader objLoader;
 	GlobalInformation globalInformation;
@@ -29,12 +29,15 @@ private:
 	void loadGeometry();
 	void loadObject3D();
 	void loadMaterials();
+	void loadCamera();
 	
 public:
 	GraphicEngine();
 
 	void loadLevel();
 	void draw();
+
+	GlobalInformation* getGlobalInformation() {return &this->globalInformation;}
 
 	~GraphicEngine();
 };

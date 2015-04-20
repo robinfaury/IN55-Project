@@ -1,6 +1,6 @@
 #include "LOD.h"
 
-LOD::LOD() : Componant()
+LOD::LOD() : GraphicComponant()
 {
 
 }

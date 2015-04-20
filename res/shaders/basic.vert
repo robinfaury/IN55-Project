@@ -22,8 +22,8 @@ uniform vec3 ObjectColor;
 
 void main()
 {
-	vec4 vertex = ObjectRotationTranslation*vec4(ObjectScale*vertexPosition_modelspace,1);
-	gl_Position =  Projection*View*Model * vertex;
+	vec4 vertex = Model * vec4(ObjectScale*vertexPosition_modelspace,1);
+	gl_Position =  Projection*View * vertex;
 	Position_worldspace = (Model * vertex).xyz;
 
 	Normal_cameraspace = (View * Model * vec4(vertexNormal, 0)).xyz;

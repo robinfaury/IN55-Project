@@ -32,15 +32,26 @@ void GraphicEngine::loadGeometry()
 
 void GraphicEngine::loadObject3D()
 {
-	this->objects3D["Dragon"] = new Object3D(&this->globalInformation, this->geometry["Dragon"], "Dragon");
+	loadCamera();
+
+	this->objects3D["Dragon"] = new GraphicObject3D(&this->globalInformation, "Dragon");
+	this->objects3D["Dragon"]->setCurrentGeometry(this->geometry["Dragon"]);
 	this->objects3D["Dragon"]->addGraphicRendererComponant(this->materials["Basic"]);
 	this->objects3D["Dragon"]->scale(0.2f, 0.2f, 0.2f);
 	this->objects3D["Dragon"]->rotate(30, 1.0f, 0.0f, 0.0f);
 	this->objects3D["Dragon"]->translate(1.0f, 0.0f, 0.0f);
-	this->objects3D["Dragon2"] = new Object3D(&this->globalInformation, this->geometry["Dragon"], "Dragon");
+	this->objects3D["Dragon2"] = new GraphicObject3D(&this->globalInformation, "Dragon2");
+	this->objects3D["Dragon2"]->setCurrentGeometry(this->geometry["Dragon"]);
 	this->objects3D["Dragon2"]->addGraphicRendererComponant(this->materials["Basic"]);
 	this->objects3D["Dragon2"]->scale(0.2f, 0.2f, 0.2f);
 	this->objects3D["Dragon2"]->rotate(30, 1.0f, 0.0f, 0.0f);
+}
+
+void GraphicEngine::loadCamera()
+{
+	this->cameras["MainCamera"] = new Camera("MainCamera");
+	this->globalInformation.setCurrentCamera(this->cameras["MainCamera"]);
+	this->cameras["MainCamera"]->translate(4.0f, 3.0f, 0.0f);
 }
 
 void GraphicEngine::loadLevel()
@@ -54,10 +65,8 @@ void GraphicEngine::loadLevel()
 
 void GraphicEngine::draw()
 {
-	this->globalInformation.setCameraProperty(glm::vec3(4.0f, 2.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	this->globalInformation.computeModelViewProjectionMatrix();
-
-	for (std::map<std::string, Object3D*>::iterator currentObject3D = this->objects3D.begin(); currentObject3D != this->objects3D.end(); ++currentObject3D)
+	this->cameras["MainCamera"]->update(0.0f, 0.0f);
+	for (std::map<std::string, GraphicObject3D*>::iterator currentObject3D = this->objects3D.begin(); currentObject3D != this->objects3D.end(); ++currentObject3D)
 		currentObject3D->second->update();
 }
 

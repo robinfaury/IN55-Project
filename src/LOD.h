@@ -1,10 +1,10 @@
 #ifndef _LOD_H
 #define _LOD_H
 
-#include "Componant.h"
+#include "GraphicComponant.h"
 
 
-class LOD: public Componant
+class LOD: public GraphicComponant
 {
 private:
 

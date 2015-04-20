@@ -1,10 +1,10 @@
 #ifndef _PHYSIC_H
 #define _PHYSIC_H
 
-#include "Componant.h"
+#include "GraphicComponant.h"
 
 
-class Physic: public Componant
+class Physic: public GraphicComponant
 {
 protected:
 

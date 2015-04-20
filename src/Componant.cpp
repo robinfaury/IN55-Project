@@ -2,9 +2,10 @@
 
 Componant::Componant()
 {
-
+	
 }
 
 Componant::~Componant()
 {
+	
 }

@@ -1,9 +1,9 @@
 #ifndef _PARTICLESYSTEM_H
 #define _PARTICLESYSTEM_H
 
-#include "Componant.h"
+#include "GraphicComponant.h"
 
-class ParticleSystem : public Componant
+class ParticleSystem : public GraphicComponant
 {
 private:
 
