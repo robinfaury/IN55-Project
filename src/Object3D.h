@@ -13,12 +13,12 @@ protected:
 public:
 	Object3D(std::string name);
 
-	void translate(float x, float y, float z);
-	void rotate(float alpha, float x, float y, float z);
-	void scale(float x, float y, float z);
-	void setPosition(float x, float y, float z);
-	void setRotation(float alpha, float x, float y, float z);
-	void setScaling(float x, float y, float z);
+	virtual void translate(float x, float y, float z);
+	virtual void rotate(float alpha, float x, float y, float z);
+	virtual void scale(float x, float y, float z);
+	virtual void setPosition(float x, float y, float z);
+	virtual void setRotation(float alpha, float x, float y, float z);
+	virtual void setScaling(float x, float y, float z);
 
 	glm::vec3 getPostion();
 	

@@ -1,15 +1,16 @@
 #ifndef _ENGINE_H
 #define _ENGINE_H
 
-#include <SFML/Window.hpp>
-
 #include "GraphicEngine.h"
+#include "InteractionEvent.h"
 
 class Engine
 {
 private:
 	sf::Window* renderWindow;
 	GraphicEngine graphic;
+	Camera* currentCamera;
+	InteractionEvent interactionEvent;
 	
 public:
 	Engine();

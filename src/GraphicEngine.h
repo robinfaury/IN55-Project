@@ -8,7 +8,7 @@
 #include "Cube.h"
 #include "Plan.h"
 #include "Point.h"
-#include "GraphicObject3D.h"
+#include "Particle.h"
 #include "OBJLoader.h"
 
 class GraphicEngine
@@ -38,6 +38,7 @@ public:
 	void draw();
 
 	GlobalInformation* getGlobalInformation() {return &this->globalInformation;}
+	Camera* getCurrentCamera() {return this->globalInformation.getCurrentCamera();}
 
 	~GraphicEngine();
 };

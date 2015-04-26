@@ -27,7 +27,7 @@ public:
 	void addGraphicRendererComponant(Material* material);
 	void addPhysicComponant(bool dynamic = false);
 	void addLODComponant() {this->componants.push_back(new LOD());}
-	void addParticleSystemComponant() {this->componants.push_back(new ParticleSystem());}
+	void addParticleSystemComponant(int nbParticles, bool continuous = true) {this->componants.push_back(new ParticleSystem(nbParticles, continuous));}
 
 	void setCurrentGeometry(Geometry* geometry) {this->currentGeometry = geometry;}
 

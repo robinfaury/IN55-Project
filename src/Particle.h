@@ -3,13 +3,14 @@
 
 #include "GraphicObject3D.h"
 
-
 class Particle: public GraphicObject3D
 {
 private:
 
-public:
 	Particle();
+
+public:
+	Particle(GlobalInformation* globalInformation, std::string name);
 
 	~Particle();
 };

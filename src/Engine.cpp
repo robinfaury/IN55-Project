@@ -34,11 +34,17 @@ void Engine::InitializeWindow(std::string windowName, int height, int width, int
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+
+	sf::Mouse::setPosition(sf::Vector2i(static_cast<unsigned int>(this->renderWindow->getSize().x/2), static_cast<unsigned int>(this->renderWindow->getSize().y/2)), *this->renderWindow);
+	this->renderWindow->setMouseCursorVisible(false);
 }
 
 void Engine::init()
 {
 	this->graphic.loadLevel();
+	this->currentCamera = this->graphic.getCurrentCamera();
+	this->interactionEvent.setWindow(this->renderWindow);
+	this->interactionEvent.setCurrentCamera(this->currentCamera);
 }
 
 void Engine::run()
@@ -46,24 +52,9 @@ void Engine::run()
 	bool running = true;
 	while (running)
 	{
-		sf::Event event;
-		while (this->renderWindow->pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				running = false;
-			}
-			else if (event.type == sf::Event::Resized)
-			{
-				glViewport(0, 0, event.size.width, event.size.height);
-			}
-			else if (event.type == sf::Event::KeyPressed)
-			{
-				if (event.key.code == sf::Keyboard::Q)
-					running = false;
-			}
-		}
-
+		this->interactionEvent.checkEvent();
+		running = this->interactionEvent.makeAction();
+		
 		glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

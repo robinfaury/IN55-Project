@@ -2,6 +2,7 @@
 #define _OBJECT_H
 
 #include <string>
+#include <iostream>
 
 class Object
 {
