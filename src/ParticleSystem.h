@@ -2,15 +2,31 @@
 #define _PARTICLESYSTEM_H
 
 #include "GraphicComponant.h"
+#include "Particle.h"
+#include "Material.h"
 
 class ParticleSystem : public GraphicComponant
 {
 private:
+	int nbParticle;
+	bool continuous;
+	int time;
+	int globalLife;
+	std::vector<Particle*> particles;
+	std::vector<glm::vec3> particlesPosition;
+	Material* particleMaterial;
+	Geometry* particleGeometry;
+	Object3D* emitter;
+	Drawable drawable;
+
+	void lunchParticle(int n);
 
 public:
-	ParticleSystem(int nbParticle, bool continuous = true);
+	ParticleSystem(int nbParticle, Material* particleMaterial, bool continuous = true);
 	
-	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale);
+	void generate(Object3D* emitter, int life);
+
+	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale, GlobalInformation* globalInformation);
 
 	~ParticleSystem();
 };

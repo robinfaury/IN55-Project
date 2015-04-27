@@ -25,7 +25,7 @@ void main()
 	if (isTexture == 1)
 		MaterialDiffuseColor = texture(Tex01, UV).rgb;
 	else
-		MaterialDiffuseColor = vec3(1.0, 0.0, 0.0);
+		MaterialDiffuseColor = ObjectColor;
 	vec3 MaterialAmbientColor = vec3(0.1,0.1,0.1) * MaterialDiffuseColor;
 	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
 

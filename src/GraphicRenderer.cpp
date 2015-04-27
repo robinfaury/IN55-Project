@@ -10,7 +10,7 @@ GraphicRenderer::GraphicRenderer(Camera* camera) : GraphicComponant()
 	this->currentCamera = camera;
 }
 
-void GraphicRenderer::apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale)
+void GraphicRenderer::apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale, GlobalInformation* globalInformation)
 {
 	glm::mat4 rotationTranslation = glm::mat4(rotation);
 	rotationTranslation[3][0] = position.x;
@@ -28,11 +28,16 @@ void GraphicRenderer::apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 sc
 		glm::vec3 posCam = this->currentCamera->getPostion();
 		glUniform3f(glGetUniformLocation(programID, "PosCamera"), posCam.x, posCam.y, posCam.z);
 		glUniform3f(glGetUniformLocation(programID, "PosLamp01"), 4.0f, 2.0f, 4.0f);
+		glUniform2i(glGetUniformLocation(programID, "Resolution"), globalInformation->getHeightWindow(), globalInformation->getWidthWindow());
 		
 		if (this->material->getTexture() != NULL)
 			glBindTexture(GL_TEXTURE_2D, this->material->getTexture()->getTextureID());
 		glUniform1i(glGetUniformLocation(programID, "isTexture"), (this->material->getTexture() == NULL)? 0 : 1);
+		glm::vec3 color = this->material->getColor();
+		glUniform3f(glGetUniformLocation(programID, "ObjectColor"), color.x, color.y, color.z);
+
 		this->geometryToDraw->getDrawable()->draw();
+
 		glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);
 }

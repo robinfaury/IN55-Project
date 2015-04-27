@@ -9,6 +9,7 @@
 #include "Plan.h"
 #include "Point.h"
 #include "Particle.h"
+#include "GraphicObject3D.h"
 #include "OBJLoader.h"
 
 class GraphicEngine
@@ -32,7 +33,7 @@ private:
 	void loadCamera();
 	
 public:
-	GraphicEngine();
+	GraphicEngine(int heightWindow, int widthWindow);
 
 	void loadLevel();
 	void draw();

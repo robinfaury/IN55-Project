@@ -8,7 +8,7 @@ class Engine
 {
 private:
 	sf::Window* renderWindow;
-	GraphicEngine graphic;
+	GraphicEngine* graphic;
 	Camera* currentCamera;
 	InteractionEvent interactionEvent;
 	

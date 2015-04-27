@@ -3,17 +3,19 @@
 
 #include "Physic.h"
 
-
 class Dynamic: public Physic
 {
 private:
+	glm::vec3 velocity;
 
 public:
 	Dynamic();
 
 	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale);
 
+	void setVelocity(float x, float y, float z, float celerity);
+
 	~Dynamic();
 };
 
-#endif //_DYNAMIC_H
+#endif 

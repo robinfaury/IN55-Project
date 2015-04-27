@@ -4,10 +4,13 @@
 Engine::Engine()
 {
 	this->renderWindow = NULL;
+	this->graphic = NULL;
 }
 
 void Engine::InitializeWindow(std::string windowName, int height, int width, int OpenGLMajorVersion, int OpenGLMinorVersion, int antialiasingLevel, int depthBits, int stencilBits)
 {
+	this->graphic = new GraphicEngine(height, width);
+
 	sf::ContextSettings settings;
 	settings.depthBits = depthBits;
 	settings.stencilBits = stencilBits;
@@ -41,8 +44,8 @@ void Engine::InitializeWindow(std::string windowName, int height, int width, int
 
 void Engine::init()
 {
-	this->graphic.loadLevel();
-	this->currentCamera = this->graphic.getCurrentCamera();
+	this->graphic->loadLevel();
+	this->currentCamera = this->graphic->getCurrentCamera();
 	this->interactionEvent.setWindow(this->renderWindow);
 	this->interactionEvent.setCurrentCamera(this->currentCamera);
 }
@@ -58,7 +61,7 @@ void Engine::run()
 		glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		this->graphic.draw();
+		this->graphic->draw();
 
 		this->renderWindow->display();
 	}

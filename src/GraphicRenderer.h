@@ -17,7 +17,7 @@ private:
 public:
 	GraphicRenderer(Camera* camera);
 	
-	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale);
+	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale, GlobalInformation* globalInformation);
 
 	void setGeometryToDraw(Geometry* geometry) {this->geometryToDraw = geometry;}
 	void setMaterial(Material* material) {this->material = material;}

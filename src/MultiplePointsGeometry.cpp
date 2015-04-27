@@ -12,7 +12,7 @@ MultiplePointsGeometry::MultiplePointsGeometry(std::string name) : Geometry(name
 
 void MultiplePointsGeometry::loadOnGraphicCard()
 {
-	this->drawable.loadOnGraphicCard(&this->vertex, &this->normals, &this->uvs, this->drawingMode);
+	this->drawable.loadOnGraphicCard(this->drawingMode, &this->vertex, &this->normals, &this->uvs);
 }
 
 MultiplePointsGeometry::~MultiplePointsGeometry()
