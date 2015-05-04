@@ -2,11 +2,12 @@
 
 in vec3 vertexPositionMV;
 
-out vec3 color;
+out vec4 color;
 
 uniform vec3 PosCamera;
 
 void main()
 {
-	color = vec3(1.0, 1.0, 1.0);
+	vec2 p = gl_FragCoord.xy;
+	color = vec4(p.x/1600, p.y/900, 1.0, 1.0);
 }
