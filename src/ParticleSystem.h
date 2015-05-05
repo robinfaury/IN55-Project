@@ -8,7 +8,8 @@
 class ParticleSystem : public GraphicComponant
 {
 private:
-	int nbParticle;
+	int nbParticulePerFrame;
+	int nbParticuleMax;
 	bool continuous;
 	int time;
 	int globalLife;
@@ -22,7 +23,7 @@ private:
 	void lunchParticle(int n);
 
 public:
-	ParticleSystem(int nbParticle, Material* particleMaterial, bool continuous = true);
+	ParticleSystem(int nbParticleInitial, int nbParticuleMax, Material* particleMaterial, bool continuous = true);
 	
 	void generate(Object3D* emitter, int life);
 

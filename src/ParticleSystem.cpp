@@ -1,12 +1,13 @@
 #include "ParticleSystem.h"
 
-ParticleSystem::ParticleSystem(int nbParticle, Material* particleMaterial, bool continuous) : GraphicComponant()
+ParticleSystem::ParticleSystem(int nbParticleInitial, int nbParticuleMax, Material* particleMaterial, bool continuous) : GraphicComponant()
 {
 	this->continuous = continuous;
 	this->particleMaterial = particleMaterial;
 	this->particleGeometry = NULL;
-	this->particles.reserve(nbParticle);
-	this->nbParticle = nbParticle;
+	this->particles.reserve(nbParticuleMax);
+	this->nbParticuleMax = nbParticuleMax;
+	this->nbParticulePerFrame = nbParticleInitial;
 }
 
 void ParticleSystem::generate(Object3D* emitter, int life)
@@ -14,14 +15,17 @@ void ParticleSystem::generate(Object3D* emitter, int life)
 	this->time = 0;
 	this->globalLife = life;
 	this->emitter = emitter;
-	for(int i = 0; i < this->nbParticle; ++i)
+	for(int i = 0; i < this->nbParticuleMax; ++i)
+		this->particlesPosition.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+
+	for(int i = 0; i < this->nbParticuleMax; ++i)
 	{
-		Particle* p = new Particle(std::to_string(nbParticle));
+		Particle* p = new Particle(std::to_string(i));
+		p->setPosition(&this->particlesPosition[i]);
 
 		Dynamic* dynamicSystem = p->addPhysicComponantDynamic();
 		dynamicSystem->setPosition(p->trackPosition());
 		
-		this->particlesPosition.push_back(p->getPostion());
 		this->particles.push_back(p);
 	}
 	this->drawable.loadOnGraphicCard(GL_POINTS, &this->particlesPosition);
@@ -41,13 +45,12 @@ void ParticleSystem::lunchParticle(int n)
 void ParticleSystem::apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale, GlobalInformation* globalInformation)
 {
 	++this->time;
-	lunchParticle(this->nbParticle/this->globalLife);
+	lunchParticle(this->nbParticulePerFrame);
 	for (std::vector<Particle*>::iterator currentParticle = this->particles.begin(); currentParticle != this->particles.end(); ++currentParticle)
 	{
-		(*currentParticle)->update();
+		(*currentParticle)->live();
 	}
-	for (int i=0; i<this->particlesPosition.size(); ++i)
-		this->particlesPosition[i] = this->particles[i]->getPostion();
+	
 	this->drawable.updateStream(&this->particlesPosition);
 
 	glm::mat4 rotationTranslation = glm::mat4(rotation);

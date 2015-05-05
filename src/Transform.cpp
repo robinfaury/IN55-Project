@@ -2,15 +2,15 @@
 
 Transform::Transform()
 {
-	this->position = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->position = new glm::vec3(0.0f, 0.0f, 0.0f);
 	this->scaling = glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
 void Transform::translate(float x, float y, float z)
 {
-	this->position[0] += x;
-	this->position[1] += y;
-	this->position[2] += z;
+	this->position->x += x;
+	this->position->y += y;
+	this->position->z += z;
 }
 
 void Transform::scale(float x, float y, float z)

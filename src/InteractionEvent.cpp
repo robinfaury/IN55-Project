@@ -22,11 +22,13 @@ void InteractionEvent::checkEvent()
 		}
 		if (event.type == sf::Event::KeyPressed)
 		{
-			this->keyPressed[event.key.code] = true;
+			if (event.key.code >= 0)
+				this->keyPressed[event.key.code] = true;
 		}
 		if (event.type == sf::Event::KeyReleased)
 		{
-			this->keyPressed[event.key.code] = false;
+			if (event.key.code >= 0)
+				this->keyPressed[event.key.code] = false;
 		}
 		if (event.type == sf::Event::MouseMoved)
 		{

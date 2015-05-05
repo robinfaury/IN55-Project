@@ -17,6 +17,7 @@ public:
 	Particle(std::string name);
 
 	virtual void update();
+	int live();
 
 	virtual Dynamic* addPhysicComponantDynamic() {return this->dynamicSystem = Object3D::addPhysicComponantDynamic();}
 

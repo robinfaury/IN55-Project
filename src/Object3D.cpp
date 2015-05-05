@@ -40,6 +40,11 @@ void Object3D::setPosition(glm::vec3 position)
 	this->transform.setPosition(position);
 }
 
+void Object3D::setPosition(glm::vec3* position)
+{
+	this->transform.setPosition(position);
+}
+
 void Object3D::setRotation(float alpha, float x, float y, float z)
 {
 	this->transform.setRotation(alpha, glm::vec3(x, y, z), false);

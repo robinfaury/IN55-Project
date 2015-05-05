@@ -23,6 +23,7 @@ uniform vec3 ObjectColor;
 void main()
 {
 	vec4 vertex = Model * vec4(ObjectScale*vertexPosition_modelspace,1);
+	
 	gl_Position =  Projection*View * vertex;
 	Position_worldspace = (Model * vertex).xyz;
 

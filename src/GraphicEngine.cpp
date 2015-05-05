@@ -68,7 +68,7 @@ void GraphicEngine::loadObject3D()
 	this->objects3D["Plan"]->addGraphicRendererComponant(this->materials["White"]);
 	this->objects3D["Plan"]->translate(0.0f, -0.8f, 0.0f);
 	this->objects3D["Plan"]->scale(0.1f, 0.1f, 0.1f);
-	ParticleSystem* ps = this->objects3D["Plan"]->addParticleSystemComponant(1000, this->materials["Particle"], false);
+	ParticleSystem* ps = this->objects3D["Plan"]->addParticleSystemComponant(10, 1000, this->materials["Particle"], false);
 	ps->generate(this->objects3D["Plan"], 100);
 }
 

@@ -18,9 +18,9 @@ void GraphicObject3D::addGraphicRendererComponant(Material* material)
 	this->graphicComponant.push_back(renderer);
 }
 
-ParticleSystem* GraphicObject3D::addParticleSystemComponant(int nbParticles, Material* material, bool continuous)
+ParticleSystem* GraphicObject3D::addParticleSystemComponant(int nbParticlesInitale, int nbParticuleMax, Material* material, bool continuous)
 {
-	ParticleSystem* ps = new ParticleSystem(nbParticles, material, continuous);
+	ParticleSystem* ps = new ParticleSystem(nbParticlesInitale, nbParticuleMax, material, continuous);
 	this->graphicComponant.push_back(ps);
 	return ps;
 }
