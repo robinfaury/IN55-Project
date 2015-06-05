@@ -19,7 +19,7 @@ public:
 	virtual void update();
 	int live();
 
-	virtual Dynamic* addPhysicComponantDynamic() {return this->dynamicSystem = Object3D::addPhysicComponantDynamic();}
+	virtual Dynamic* addPhysicComponantDynamic(float masse, float gravityInfluance) {return this->dynamicSystem = Object3D::addPhysicComponantDynamic(masse, gravityInfluance);}
 
 	void setLife(int life) {this->life = life; this->maxLife = life;}
 	int getLife() {return this->life;}

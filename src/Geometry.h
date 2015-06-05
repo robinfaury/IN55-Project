@@ -21,6 +21,10 @@ public:
 
 	GLuint getDrawingMode() {return this->drawingMode;}
 
+	virtual std::pair<glm::vec3, glm::vec3> getRandPosOnMesh() = 0;
+	virtual int getNbGeometry() = 0;
+	virtual std::pair<std::vector<glm::vec3>, glm::vec3> getGeometryAndNormal(int id) = 0;
+
 	~Geometry();
 };
 

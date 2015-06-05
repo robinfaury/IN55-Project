@@ -37,6 +37,8 @@ void Engine::InitializeWindow(std::string windowName, int height, int width, int
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	sf::Mouse::setPosition(sf::Vector2i(static_cast<unsigned int>(this->renderWindow->getSize().x/2), static_cast<unsigned int>(this->renderWindow->getSize().y/2)), *this->renderWindow);
 	this->renderWindow->setMouseCursorVisible(false);

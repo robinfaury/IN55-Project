@@ -3,18 +3,21 @@
 Shader::Shader()
 {
 	this->vertexShaderID = 0;
+	this->geometryShaderID = 0;
 	this->fragmentShaderID = 0;
 	this->programID = 0;
 	this->loaded = false;
 }
 
-Shader::Shader(std::string vertexSource, std::string fragmentSource)
+Shader::Shader(std::string vertexSource, std::string geometrySource, std::string fragmentSource)
 {
 	this->vertexShaderID = 0;
+	this->geometryShaderID = 0;
 	this->fragmentShaderID = 0;
 	this->programID = 0;
 	this->loaded = false;
 	this->vertexSource = vertexSource;
+	this->geometrySource = geometrySource;
 	this->fragmentSource = fragmentSource;
 	load();
 }
@@ -22,6 +25,7 @@ Shader::Shader(std::string vertexSource, std::string fragmentSource)
 Shader::Shader(Shader const &shader)
 {
 	this->vertexSource = shader.vertexSource;
+	this->geometrySource = shader.geometrySource;
 	this->fragmentSource = shader.fragmentSource;
 	this->loaded = false;
 	load();
@@ -31,6 +35,11 @@ bool Shader::load()
 {
 	if (glIsShader(this->vertexShaderID) == GL_TRUE)
 		glDeleteShader(this->vertexShaderID);
+	if (this->geometrySource.compare("") != 0)
+	{
+		if (glIsShader(this->geometryShaderID) == GL_TRUE)
+			glDeleteShader(this->geometryShaderID);
+	}
 	if (glIsShader(this->fragmentShaderID) == GL_TRUE)
 		glDeleteShader(this->fragmentShaderID);
 	if (glIsProgram(this->programID) == GL_TRUE)
@@ -38,11 +47,18 @@ bool Shader::load()
 
 	if (!buildShader(this->vertexShaderID, GL_VERTEX_SHADER, this->vertexSource))
 		return false;
+	if (this->geometrySource.compare("") != 0)
+	{
+		if (!buildShader(this->geometryShaderID, GL_GEOMETRY_SHADER, this->geometrySource))
+			return false;
+	}
 	if (!buildShader(this->fragmentShaderID, GL_FRAGMENT_SHADER, this->fragmentSource))
 		return false;
 
 	this->programID = glCreateProgram();
 	glAttachShader(this->programID, this->vertexShaderID);
+	if (this->geometrySource.compare("") != 0)
+		glAttachShader(this->programID, this->geometryShaderID);
 	glAttachShader(this->programID, this->fragmentShaderID);
 
 	glBindAttribLocation(this->programID, 0, "in_Vertex");
@@ -125,6 +141,7 @@ bool Shader::buildShader(GLuint &shaderID, GLenum type, std::string const &filen
 Shader& Shader::operator= (Shader const &shader)
 {
 	this->vertexSource = shader.vertexSource;
+	this->geometrySource = shader.geometrySource;
 	this->fragmentSource = shader.fragmentSource;
 	load();
 
@@ -134,6 +151,8 @@ Shader& Shader::operator= (Shader const &shader)
 Shader::~Shader()
 {
 	glDeleteShader(this->vertexShaderID);
+	if (this->geometrySource.compare("") != 0)
+		glDeleteShader(this->geometryShaderID);
 	glDeleteShader(this->fragmentShaderID);
 	glDeleteProgram(this->programID);
 }

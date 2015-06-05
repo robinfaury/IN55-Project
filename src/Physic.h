@@ -8,11 +8,15 @@ class Physic: public Componant
 {
 protected:
 	glm::vec3* position;
+	float masse;
+	float gravityInfluance;
+
+	Physic() {}
 
 public:
-	Physic();
+	Physic(float masse, float gravityInfluance);
 
-	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale) = 0;
+	virtual void apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* scale) {}
 
 	void setPosition(glm::vec3* position) {this->position = position;}
 

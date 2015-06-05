@@ -7,6 +7,7 @@
 #include "Transform.h"
 #include "Dynamic.h"
 #include "Static.h"
+#include "FollowPath.h"
 
 class Object3D : public Object
 {
@@ -31,11 +32,13 @@ public:
 	virtual glm::vec3* trackPosition();
 
 	Static* addPhysicComponantStatic();
-	virtual Dynamic* addPhysicComponantDynamic();
+	virtual Dynamic* addPhysicComponantDynamic(float masse, float gravityInfluance);
+	virtual FollowPath* addFollowPahComponant() {this->componants.push_back(new FollowPath()); return static_cast<FollowPath*>(this->componants[this->componants.size()-1]);}
 
 	virtual void update();
 
 	glm::vec3 getPostion();
+	glm::vec3 getScale();
 	
 	~Object3D();
 	

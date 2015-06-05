@@ -9,6 +9,7 @@ Camera::Camera(std::string name) : Object3D(name)
 {
 	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->projection = glm::perspective(45.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+	//this->projection = glm::ortho(0.0f, 1600.0f, 900.0f, 0.0f, 0.0f, 1000.0f);
 	this->phi = 0.0f;
 	this->theta = -90.0f;
 	this->orientation = glm::vec3(-1.0f, 0.0f, 0.0f);

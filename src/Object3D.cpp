@@ -60,6 +60,11 @@ glm::vec3 Object3D::getPostion()
 	return this->transform.getPosition();
 }
 
+glm::vec3 Object3D::getScale()
+{
+	return this->transform.getScaling();
+}
+
 glm::vec3* Object3D::trackPosition()
 {
 	return this->transform.trackPosition();
@@ -72,9 +77,9 @@ Static* Object3D::addPhysicComponantStatic()
 	return s;
 }
 
-Dynamic* Object3D::addPhysicComponantDynamic()
+Dynamic* Object3D::addPhysicComponantDynamic(float masse, float gravityInfluance)
 {
-	Dynamic* d = new Dynamic();
+	Dynamic* d = new Dynamic(masse, gravityInfluance);
 	this->componants.push_back(d);
 	return d;
 }
@@ -82,7 +87,7 @@ Dynamic* Object3D::addPhysicComponantDynamic()
 void Object3D::update()
 {
 	for (std::vector<Componant*>::iterator currentComponent = this->componants.begin(); currentComponent != this->componants.end(); ++currentComponent)
-		(*currentComponent)->apply(this->transform.getPosition(), this->transform.getRotation(), this->transform.getScaling());
+		(*currentComponent)->apply(this->transform.trackPosition(), this->transform.trackRotation(), this->transform.trackScaling());
 }
 
 Object3D::~Object3D()

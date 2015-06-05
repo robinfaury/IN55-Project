@@ -8,15 +8,15 @@ GraphicEngine::GraphicEngine(int heightWindow, int widthWindow)
 
 void GraphicEngine::loadShader()
 {
-	this->shaders["Basic"] = new Shader("../IN55-Project/res/shaders/basic.vert", "../IN55-Project/res/shaders/basic.frag");
-	this->shaders["Particle"] = new Shader("../IN55-Project/res/shaders/particle.vert", "../IN55-Project/res/shaders/particle.frag");
-	this->shaders["Water"] = new Shader("../IN55-Project/res/shaders/water.vert", "../IN55-Project/res/shaders/water.frag");
+	this->shaders["Basic"] = new Shader("../IN55-Project/res/shaders/basic.vert", "", "../IN55-Project/res/shaders/basic.frag");
+	this->shaders["Particle"] = new Shader("../IN55-Project/res/shaders/particle.vert", "../IN55-Project/res/shaders/particle.geo", "../IN55-Project/res/shaders/particle.frag");
 }
 
 void GraphicEngine::loadTexture()
 {
 	this->textures["Grass"] = new Texture("../IN55-Project/res/images/grass.jpg", "Grass");
 	this->textures["Rock"] = new Texture("../IN55-Project/res/images/rock.jpg", "Rock");
+	this->textures["Smoke"] = new Texture("../IN55-Project/res/images/smoke.jpg", "Smoke");
 }
 
 void GraphicEngine::loadMaterials()
@@ -25,6 +25,8 @@ void GraphicEngine::loadMaterials()
 	this->materials["Basic"]->setTexture(this->textures["Rock"]);
 	this->materials["White"] = new Material(this->shaders["Basic"], "Basic");
 	this->materials["Particle"] = new Material(this->shaders["Particle"], "Particle");
+	this->materials["Smoke"] = new Material(this->shaders["Particle"], "Particle");
+	this->materials["Smoke"]->setTexture(this->textures["Smoke"]);
 	this->materials["Water"] = new Material(this->shaders["Water"], "Water");
 }
 
@@ -67,9 +69,10 @@ void GraphicEngine::loadObject3D()
 	this->objects3D["Plan"]->setCurrentGeometry(this->geometry["Plan"]);
 	this->objects3D["Plan"]->addGraphicRendererComponant(this->materials["White"]);
 	this->objects3D["Plan"]->translate(0.0f, -0.8f, 0.0f);
-	this->objects3D["Plan"]->scale(0.1f, 0.1f, 0.1f);
-	ParticleSystem* ps = this->objects3D["Plan"]->addParticleSystemComponant(10, 1000, this->materials["Particle"], false);
+	this->objects3D["Plan"]->scale(0.5f, 0.5f, 0.5f);
+	ParticleSystem* ps = this->objects3D["Plan"]->addParticleSystemComponant(1000, this->materials["Particle"], this->objects3D["Plan"]->getCurrentGeometry(), false);
 	ps->generate(this->objects3D["Plan"], 100);
+	this->objects3D["Plan"]->addFollowPahComponant();
 }
 
 void GraphicEngine::loadCamera()

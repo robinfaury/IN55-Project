@@ -10,16 +10,18 @@ class Shader
 {
 private:
 	GLuint vertexShaderID;
+	GLuint geometryShaderID;
 	GLuint fragmentShaderID;
 	GLuint programID;
 
 	std::string vertexSource;
+	std::string geometrySource;
 	std::string fragmentSource;
 
 	bool loaded;
 public:
 	Shader();
-	Shader(std::string vertexSource, std::string fragmentSource);
+	Shader(std::string vertexSource, std::string geometrySource, std::string fragmentSource);
 	Shader(Shader const &shader);
 
 	bool load();

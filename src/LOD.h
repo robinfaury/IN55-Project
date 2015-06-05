@@ -11,7 +11,7 @@ private:
 public:
 	LOD();
 
-	virtual void apply(glm::vec3 position, glm::mat3 rotation, glm::vec3 scale, GlobalInformation* globalInformation);
+	virtual void apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation);
 
 	~LOD();
 
