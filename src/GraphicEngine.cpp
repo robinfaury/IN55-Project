@@ -16,6 +16,8 @@ void GraphicEngine::loadShader()
 	this->shaders["ParticleExplosionRender"] = new Shader("../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
 	this->shaders["ParticleRainUpdate"] = new Shader("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_rain.geo", "../IN55-Project/res/shaders/particles_update.frag");
 	this->shaders["ParticleRainRender"] = new Shader("../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render_rain.frag");
+	this->shaders["ParticleFireworkUpdate"] = new Shader("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_firework.geo", "../IN55-Project/res/shaders/particles_update.frag");
+	this->shaders["ParticleFireworkRender"] = new Shader("../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
 }
 
 void GraphicEngine::loadTexture()
@@ -133,10 +135,10 @@ void GraphicEngine::loadObject3D()
 	this->objects3DWithParticleSystem["Plan2"]->scale(0.5f, 0.5f, 0.5f);
 	for (int i=0; i<10; ++i)
 	{
-		ParticleSystemTransformFeedback* ps2 = this->objects3DWithParticleSystem["Plan2"]->addParticleSystemTransformFeedbackComponant();
-		ps2->setGeneratorProperty(this->objects3DWithParticleSystem["Plan2"]->getPostion(), glm::vec3(-0.2, -0.2, -0.2), glm::vec3(0.2, 0.2, 0.2), glm::vec3(0.0, 0.0, 0.0), 
+		ps = this->objects3DWithParticleSystem["Plan2"]->addParticleSystemTransformFeedbackComponant();
+		ps->setGeneratorProperty(this->objects3DWithParticleSystem["Plan2"]->getPostion(), glm::vec3(-0.2, -0.2, -0.2), glm::vec3(0.2, 0.2, 0.2), glm::vec3(0.0, 0.0, 0.0), 
 								  glm::vec3(0.0, 0.0, 0.0), 1000, 1200, 0.05, 3000, 500);
-		ps2->initializeParticleSystem(this->shaders["ParticleExplosionUpdate"], this->shaders["ParticleExplosionRender"]);
+		ps->initializeParticleSystem(this->shaders["ParticleExplosionUpdate"], this->shaders["ParticleExplosionRender"]);
 	}
 
 	this->objects3DWithParticleSystem["Plan3"] = new GraphicObject3D(&this->globalInformation, "Plan3");
@@ -145,11 +147,20 @@ void GraphicEngine::loadObject3D()
 	this->objects3DWithParticleSystem["Plan3"]->scale(0.5f, 0.5f, 0.5f);
 	for (int i=0; i<3; ++i)
 	{
-		ParticleSystemTransformFeedback* ps3 = this->objects3DWithParticleSystem["Plan3"]->addParticleSystemTransformFeedbackComponant();
-		ps3->setGeneratorProperty(this->objects3DWithParticleSystem["Plan3"]->getPostion()+glm::vec3(0.0, 0.0, 0.051*12*i), glm::vec3(-0.002, 0.00, -0.002), glm::vec3(0.002, 0.02, 0.002), glm::vec3(0.0, -0.001, 0.0), 
-								  glm::vec3(0.0, 0.1, 0.3), 10000, 10000, 0.005, 30, 20);
-		ps3->initializeParticleSystem(this->shaders["ParticleRainUpdate"], this->shaders["ParticleRainRender"]);
+		ps = this->objects3DWithParticleSystem["Plan3"]->addParticleSystemTransformFeedbackComponant();
+		ps->setGeneratorProperty(this->objects3DWithParticleSystem["Plan3"]->getPostion()+glm::vec3(0.0, 0.0, 0.051*12*i), glm::vec3(-0.002, 0.00, -0.002), glm::vec3(0.002, 0.02, 0.002), glm::vec3(0.0, -0.001, 0.0), 
+								  glm::vec3(0.0, 0.1, 0.3), 10000, 10000, 0.005, 30, 15);
+		ps->initializeParticleSystem(this->shaders["ParticleRainUpdate"], this->shaders["ParticleRainRender"]);
 	}
+
+	this->objects3DWithParticleSystem["Plan4"] = new GraphicObject3D(&this->globalInformation, "Plan4");
+	this->objects3DWithParticleSystem["Plan4"]->setCurrentGeometry(this->geometry["Plan"]);
+	this->objects3DWithParticleSystem["Plan4"]->translate(-6.0f, 1.0f, -5.0f);
+	this->objects3DWithParticleSystem["Plan4"]->scale(0.5f, 0.5f, 0.5f);
+	ps = this->objects3DWithParticleSystem["Plan4"]->addParticleSystemTransformFeedbackComponant();
+	ps->setGeneratorProperty(this->objects3DWithParticleSystem["Plan4"]->getPostion(), glm::vec3(-0.04, 0.3, -0.04), glm::vec3(0.04, 0.4, 0.04), glm::vec3(0.0, -0.01, 0.0), 
+							 glm::vec3(0.0, 0.1, 0.3), 1000, 1100, 0.05, 400, 1);
+	ps->initializeParticleSystem(this->shaders["ParticleFireworkUpdate"], this->shaders["ParticleFireworkRender"]);
 }
 
 void GraphicEngine::loadCamera()
