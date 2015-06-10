@@ -5,6 +5,7 @@
 #include "GraphicRenderer.h"
 #include "LOD.h"
 #include "ParticleSystem.h"
+#include "ParticleSystemTransformFeedback.h"
 #include "Object3D.h"
 #include "GlobalInformation.h"
 
@@ -25,11 +26,12 @@ public:
 	void addGraphicRendererComponant(Material* material);
 	void addLODComponant() {this->graphicComponant.push_back(new LOD());}
 	ParticleSystem* addParticleSystemComponant(int nbParticuleMax, Material* material, Geometry* emitterGeometry, bool continuous = true);
+	ParticleSystemTransformFeedback* addParticleSystemTransformFeedbackComponant();
 
 	void setCurrentGeometry(Geometry* geometry) {this->currentGeometry = geometry;}
 	Geometry* getCurrentGeometry() {return this->currentGeometry;}
 
-    virtual void update();
+    virtual void update(float time);
 
 	~GraphicObject3D();
 };

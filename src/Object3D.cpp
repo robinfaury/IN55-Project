@@ -84,10 +84,10 @@ Dynamic* Object3D::addPhysicComponantDynamic(float masse, float gravityInfluance
 	return d;
 }
 
-void Object3D::update()
+void Object3D::update(float time)
 {
 	for (std::vector<Componant*>::iterator currentComponent = this->componants.begin(); currentComponent != this->componants.end(); ++currentComponent)
-		(*currentComponent)->apply(this->transform.trackPosition(), this->transform.trackRotation(), this->transform.trackScaling());
+		(*currentComponent)->apply(time, this->transform.trackPosition(), this->transform.trackRotation(), this->transform.trackScaling());
 }
 
 Object3D::~Object3D()

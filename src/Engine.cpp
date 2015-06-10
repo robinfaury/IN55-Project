@@ -36,6 +36,7 @@ void Engine::InitializeWindow(std::string windowName, int height, int width, int
 	}
 
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -54,16 +55,20 @@ void Engine::init()
 
 void Engine::run()
 {
+	typedef std::chrono::high_resolution_clock Time;
+	auto t0 = Time::now();
+	auto t1 = Time::now();
+
 	bool running = true;
 	while (running)
 	{
 		this->interactionEvent.checkEvent();
 		running = this->interactionEvent.makeAction();
 		
-		glClearColor(0.2f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		this->graphic->draw();
+		this->graphic->draw(std::chrono::duration_cast<std::chrono::milliseconds>(Time::now() - t0).count());
 
 		this->renderWindow->display();
 	}

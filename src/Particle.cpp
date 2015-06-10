@@ -22,7 +22,7 @@ int Particle::live()
 	--this->life;
 	if (this->life > 0)
 	{
-		Object3D::update();
+		Object3D::update(0);
 		return 0;
 	}
 	else

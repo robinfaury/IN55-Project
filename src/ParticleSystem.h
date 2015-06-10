@@ -29,7 +29,7 @@ public:
 	
 	void generate(Object3D* emitter, int life);
 
-	virtual void apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation);
+	virtual void apply(float time, glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation);
 
 	void setParticuleGeometry(Geometry* geometry) {this->particleGeometry = geometry;}
 

@@ -35,7 +35,7 @@ public:
 	virtual Dynamic* addPhysicComponantDynamic(float masse, float gravityInfluance);
 	virtual FollowPath* addFollowPahComponant() {this->componants.push_back(new FollowPath()); return static_cast<FollowPath*>(this->componants[this->componants.size()-1]);}
 
-	virtual void update();
+	virtual void update(float time);
 
 	glm::vec3 getPostion();
 	glm::vec3 getScale();

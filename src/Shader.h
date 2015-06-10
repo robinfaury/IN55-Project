@@ -19,6 +19,8 @@ private:
 	std::string fragmentSource;
 
 	bool loaded;
+	bool transformFeedback;
+
 public:
 	Shader();
 	Shader(std::string vertexSource, std::string geometrySource, std::string fragmentSource);
@@ -26,6 +28,7 @@ public:
 
 	bool load();
 	bool buildShader(GLuint &shaderID, GLenum type, std::string const &filename);
+	bool linkProgram();
 
 	Shader& operator= (Shader const &shader);
 

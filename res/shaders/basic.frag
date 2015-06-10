@@ -1,42 +1,78 @@
 #version 330 core
 
-// Input data
-in vec3 Position_worldspace;
-in vec3 Normal_cameraspace;
-in vec3 LightDirection_cameraspace;
-in vec3 EyeDirection_cameraspace;
-in vec2 UV;
+in vec2 texCoord;
+smooth in vec3 vNormal;
+smooth in vec3 vWorldPos;
 
-// Ouput data
-out vec3 color;
+out vec4 outputColor;
 
-uniform vec3 PosLamp01;
-uniform vec3 ObjectColor;
-uniform int isNormals;
+uniform sampler2D gSampler;
+
+struct PointLight
+{
+	vec3 vColor; // Color of that point light
+	vec3 vPosition;
+	
+	float fAmbient;
+
+	float fConstantAtt;
+	float fLinearAtt;
+	float fExpAtt;
+};
+
+struct Material 
+{ 
+   float fSpecularIntensity; 
+   float fSpecularPower; 
+};
+
+vec4 getPointLightColor(const PointLight ptLight, vec3 vWorldPos, vec3 vNormal)
+{
+	vec3 vPosToLight = vWorldPos-ptLight.vPosition;
+	float fDist = length(vPosToLight);
+	vPosToLight = normalize(vPosToLight);
+	
+	float fDiffuse = max(0.0, dot(vNormal, -vPosToLight));
+
+	float fAttTotal = ptLight.fConstantAtt + ptLight.fLinearAtt*fDist + ptLight.fExpAtt*fDist*fDist;
+
+	return vec4(ptLight.vColor*(ptLight.fAmbient+fDiffuse)/fAttTotal, 1.0);
+}
+
+vec4 GetSpecularColor(vec3 vWorldPos, vec3 vEyePos, Material mat, PointLight lamp, vec3 vNormal) 
+{ 
+   vec4 vResult = vec4(0.0, 0.0, 0.0, 0.0); 
+    
+   vec3 vReflectedVector = normalize(reflect(lamp.vPosition - vWorldPos, vNormal)); 
+   vec3 vVertexToEyeVector = normalize(vEyePos-vWorldPos); 
+   float fSpecularFactor = dot(vVertexToEyeVector, vReflectedVector); 
+    
+   if (fSpecularFactor > 0) 
+   { 
+      fSpecularFactor = pow(fSpecularFactor, mat.fSpecularPower); 
+      vResult = vec4(lamp.vColor, 1.0) * mat.fSpecularIntensity * fSpecularFactor; 
+   } 
+    
+   return vResult; 
+}
+
+uniform PointLight lamp[4];
+uniform Material material;
+uniform vec3 vEyePosition;
 uniform int isTexture;
-uniform sampler2D Tex01;
 
 void main()
 {
-	vec3 LightColor = vec3(1,1,1);
-	float LightPower = 30.0f;
-
-	vec3 MaterialDiffuseColor;
+	vec4 color = vec4(0.0, 0.0, 0.0, 0.0);
 	if (isTexture == 1)
-		MaterialDiffuseColor = texture(Tex01, UV).rgb;
-	else
-		MaterialDiffuseColor = ObjectColor;
-	vec3 MaterialAmbientColor = vec3(0.1,0.1,0.1) * MaterialDiffuseColor;
-	vec3 MaterialSpecularColor = vec3(0.3,0.3,0.3);
+		color = texture2D(gSampler, texCoord); 
+	float fDiffuseIntensity = max(0.0, dot(normalize(vNormal), -vec3(0.2, -1.0, 0.1)));
 
-	float distance = length(PosLamp01 - Position_worldspace );
-
-	vec3 N = normalize(Normal_cameraspace);
-	vec3 L = normalize(LightDirection_cameraspace);
-	vec3 E = normalize(EyeDirection_cameraspace);
-	vec3 R = reflect(-L, N);
-	vec3 i_a = MaterialAmbientColor;
-	vec3 i_d = MaterialDiffuseColor * LightColor * LightPower * clamp(dot(L, N), 0, 1) / (distance*distance);
-	vec3 i_s = MaterialSpecularColor * LightColor * LightPower * pow(clamp(dot(E, R), 0, 1), 500) / (distance*distance);
-	color = i_a + i_d + i_s;
+	vec4 vPtLightColor = vec4(0.0, 0.0, 0.0, 1.0);
+	for (int i=0; i<4; ++i)
+	{
+		vPtLightColor += getPointLightColor(lamp[i], vWorldPos, normalize(vNormal));
+		vPtLightColor += GetSpecularColor(vWorldPos, vEyePosition, material, lamp[i], normalize(vNormal));
+	}
+	outputColor = color*vPtLightColor;
 }

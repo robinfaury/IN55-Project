@@ -4,6 +4,8 @@
 #include "GraphicEngine.h"
 #include "InteractionEvent.h"
 
+#include <chrono>
+
 class Engine
 {
 private:

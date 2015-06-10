@@ -17,7 +17,7 @@ private:
 	Material();
 
 public:
-	Material(Shader* shader, std::string name);
+	Material(std::string name, Shader* shader = NULL);
 
 	void setTexture(Texture* texture) {this->texture = texture;}
 	void setColor(float r, float g, float b) {this->color = glm::vec3(r, g, b);}

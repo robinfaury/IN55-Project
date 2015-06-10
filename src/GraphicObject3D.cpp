@@ -25,11 +25,18 @@ ParticleSystem* GraphicObject3D::addParticleSystemComponant(int nbParticuleMax, 
 	return ps;
 }
 
-void GraphicObject3D::update()
+ParticleSystemTransformFeedback* GraphicObject3D::addParticleSystemTransformFeedbackComponant()
 {
-	Object3D::update();
+	ParticleSystemTransformFeedback* ps = new ParticleSystemTransformFeedback();
+	this->graphicComponant.push_back(ps);
+	return ps;
+}
+
+void GraphicObject3D::update(float time)
+{
+	Object3D::update(time);
 	for (std::vector<GraphicComponant*>::iterator currentComponent = this->graphicComponant.begin(); currentComponent != this->graphicComponant.end(); ++currentComponent)
-		(*currentComponent)->apply(this->transform.trackPosition(), this->transform.trackRotation(), this->transform.trackScaling(), this->globalInformation);
+		(*currentComponent)->apply(time, this->transform.trackPosition(), this->transform.trackRotation(), this->transform.trackScaling(), this->globalInformation);
 }
 
 GraphicObject3D::~GraphicObject3D()

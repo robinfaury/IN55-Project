@@ -43,7 +43,7 @@ void ParticleSystem::lunchParticle(int n)
 	}
 }
 
-void ParticleSystem::apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation)
+void ParticleSystem::apply(float time, glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation)
 {
 	++this->time;
 	lunchParticle(this->nbParticulePerFrame);
@@ -74,7 +74,9 @@ void ParticleSystem::apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* 
 		glm::vec3 color = this->particleMaterial->getColor();
 		glUniform3f(glGetUniformLocation(programID, "particleColor"), color.x, color.y, color.z);
 
+		glDisable(GL_CULL_FACE);
 		this->drawable.draw();
+		glEnable(GL_CULL_FACE);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 	glUseProgram(0);

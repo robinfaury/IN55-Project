@@ -5,9 +5,10 @@ Material::Material()
 
 }
 
-Material::Material(Shader* shader, std::string name) : Object(name)
+Material::Material(std::string name, Shader* shader) : Object(name)
 {
-	this->shader = shader;
+	if (this->shader != NULL)
+		this->shader = shader;
 	this->texture = NULL;
 	this->color = glm::vec3(1.0f, 1.0f, 1.0f);
 }

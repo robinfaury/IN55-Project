@@ -7,6 +7,11 @@ Shader::Shader()
 	this->fragmentShaderID = 0;
 	this->programID = 0;
 	this->loaded = false;
+	this->vertexSource = "../IN55-Project/res/shaders/basic.vert";
+	this->geometrySource = "";
+	this->fragmentSource = "../IN55-Project/res/shaders/basic.frag";
+	this->transformFeedback = false;
+	load();
 }
 
 Shader::Shader(std::string vertexSource, std::string geometrySource, std::string fragmentSource)
@@ -19,6 +24,7 @@ Shader::Shader(std::string vertexSource, std::string geometrySource, std::string
 	this->vertexSource = vertexSource;
 	this->geometrySource = geometrySource;
 	this->fragmentSource = fragmentSource;
+	this->transformFeedback = transformFeedback;
 	load();
 }
 
@@ -61,10 +67,18 @@ bool Shader::load()
 		glAttachShader(this->programID, this->geometryShaderID);
 	glAttachShader(this->programID, this->fragmentShaderID);
 
-	glBindAttribLocation(this->programID, 0, "in_Vertex");
-	glBindAttribLocation(this->programID, 1, "in_Color");
-	glBindAttribLocation(this->programID, 2, "in_TexCoord0");
+	glBindAttribLocation(this->programID, 0, "vertex");
+	glBindAttribLocation(this->programID, 1, "Attribute1");
+	glBindAttribLocation(this->programID, 2, "Attribute2");
+	glBindAttribLocation(this->programID, 3, "Attribute3");
+	glBindAttribLocation(this->programID, 4, "Attribute4");
+	glBindAttribLocation(this->programID, 5, "Attribute5");
 
+	return linkProgram();
+}
+
+bool Shader::linkProgram()
+{
 	glLinkProgram(this->programID);
 
 	GLint linkError =0;

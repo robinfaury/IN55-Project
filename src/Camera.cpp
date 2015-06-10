@@ -29,7 +29,7 @@ void Camera::move(float a)
 
 void Camera::straf(float a)
 {
-	glm::vec3 crossVector = cross(this->up, this->orientation);
+	glm::vec3 crossVector = glm::normalize(glm::cross(this->up, this->orientation));
 	this->translate(crossVector.x*a, crossVector.y*a, crossVector.z*a);
 	update();
 }
@@ -39,9 +39,9 @@ void Camera::climb(float a)
 	this->translate(0.0f, 1.0f*a, 0.0f);
 }
 
-void Camera::oriente(int dx, int dy)
+void Camera::oriente(float dx, float dy)
 {
-	if (abs(dx) > 800 || abs(dy) > 800 || dx == 0 || dy == 0)
+	if (abs(dx) > 800 || abs(dy) > 800 || dx == 0.0f || dy == 0.0f)
 		return;
 	this->phi -= static_cast<float>(dy)*0.2f;
 	this->theta -= static_cast<float>(dx)*0.2f;
@@ -57,8 +57,6 @@ void Camera::oriente(int dx, int dy)
 	this->orientation.x = cos(phiRad) * sin(thetaRad);
 	this->orientation.y = sin(phiRad);
 	this->orientation.z = cos(phiRad) * cos(thetaRad);
-
-	update();
 }
 
 void Camera::translate(float x, float y, float z)

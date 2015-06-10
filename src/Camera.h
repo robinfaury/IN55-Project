@@ -28,12 +28,15 @@ public:
 	void move(float a);
 	void straf(float a);
 	void climb(float a);
-	void oriente(int dx, int dy);
+	void oriente(float dx, float dy);
 
 	void translate(float x, float y, float z);
 
 	glm::mat4 getView() {return this->view;}
 	glm::mat4 getProjection() {return this->projection;}
+
+	glm::vec3 getUpVector() {return this->up;}
+	glm::vec3 getFocus() {return this->getPostion()+this->orientation;}
 	
 	~Camera();
 };

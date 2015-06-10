@@ -20,6 +20,7 @@ private:
 	std::map<std::string, Material*> materials;
 	std::map<std::string, Geometry*> geometry;
 	std::map<std::string, GraphicObject3D*> objects3D;
+	std::map<std::string, GraphicObject3D*> objects3DWithParticleSystem;
 	std::map<std::string, Camera*> cameras;
 
 	OBJLoader objLoader;
@@ -36,7 +37,7 @@ public:
 	GraphicEngine(int heightWindow, int widthWindow);
 
 	void loadLevel();
-	void draw();
+	void draw(float time);
 
 	GlobalInformation* getGlobalInformation() {return &this->globalInformation;}
 	Camera* getCurrentCamera() {return this->globalInformation.getCurrentCamera();}

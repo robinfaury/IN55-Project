@@ -57,10 +57,10 @@ bool InteractionEvent::makeAction()
 		this->running = false;
 
 	if (this->wheel != 0)
-		this->currentCamera->climb(this->wheel*0.1f);
+		this->currentCamera->climb(this->wheel*0.3f);
 	this->wheel = 0;
 	
-	this->currentCamera->oriente(this->mousePosX - window->getSize().x/2, this->mousePosY - window->getSize().y/2);
+	this->currentCamera->oriente(this->mousePosX - window->getSize().x/2.0f, this->mousePosY - window->getSize().y/2.0f);
 	sf::Mouse::setPosition(sf::Vector2i(static_cast<unsigned int>(this->window->getSize().x/2), static_cast<unsigned int>(this->window->getSize().y/2)), *this->window);
 
 	return running;

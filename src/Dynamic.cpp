@@ -5,7 +5,7 @@ Dynamic::Dynamic(float masse, float gravityInfluance) : Physic(masse, gravityInf
 
 }
 
-void Dynamic::apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* scale)
+void Dynamic::apply(float time, glm::vec3* position, glm::mat3* rotation, glm::vec3* scale)
 {
 	this->velocity += glm::vec3(0.0f, -0.01f*this->gravityInfluance, 0.0f);
 	*this->position += this->velocity;

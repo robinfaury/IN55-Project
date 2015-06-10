@@ -10,12 +10,12 @@ class GraphicComponant : public Componant
 private:
 
 protected: 
-	virtual void apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* scale) {}
+	virtual void apply(float time, glm::vec3* position, glm::mat3* rotation, glm::vec3* scale) {}
 
 public:
 	GraphicComponant();
 
-	virtual void apply(glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation) = 0;
+	virtual void apply(float time, glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation) = 0;
 	
 	~GraphicComponant();
 };
