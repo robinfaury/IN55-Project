@@ -10,6 +10,12 @@ void GraphicEngine::loadShader()
 {
 	this->shaders["Basic"] = new Shader("../IN55-Project/res/shaders/basic.vert", "", "../IN55-Project/res/shaders/basic.frag");
 	this->shaders["Particle"] = new Shader("../IN55-Project/res/shaders/particle.vert", "../IN55-Project/res/shaders/particle.geo", "../IN55-Project/res/shaders/particle.frag");
+	this->shaders["ParticleFountainUpdate"] = new Shader("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update.geo", "../IN55-Project/res/shaders/particles_update.frag");
+	this->shaders["ParticleFountainRender"] = new Shader("../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
+	this->shaders["ParticleExplosionUpdate"] = new Shader("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_explosion.geo", "../IN55-Project/res/shaders/particles_update.frag");
+	this->shaders["ParticleExplosionRender"] = new Shader("../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
+	this->shaders["ParticleRainUpdate"] = new Shader("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_rain.geo", "../IN55-Project/res/shaders/particles_update.frag");
+	this->shaders["ParticleRainRender"] = new Shader("../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render_rain.frag");
 }
 
 void GraphicEngine::loadTexture()
@@ -119,28 +125,31 @@ void GraphicEngine::loadObject3D()
 	this->objects3DWithParticleSystem["Plan"]->scale(0.5f, 0.5f, 0.5f);
 	ParticleSystemTransformFeedback* ps = this->objects3DWithParticleSystem["Plan"]->addParticleSystemTransformFeedbackComponant();
 	ps->setGenPosition(this->objects3DWithParticleSystem["Plan"]->getPostion());
-	ps->initializeParticleSystem("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update.geo", "../IN55-Project/res/shaders/particles_update.frag", 
-								 "../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
+	ps->initializeParticleSystem(this->shaders["ParticleFountainUpdate"], this->shaders["ParticleFountainRender"]);
 
 	this->objects3DWithParticleSystem["Plan2"] = new GraphicObject3D(&this->globalInformation, "Plan2");
 	this->objects3DWithParticleSystem["Plan2"]->setCurrentGeometry(this->geometry["Plan"]);
 	this->objects3DWithParticleSystem["Plan2"]->translate(-6.0f, 3.0f, 5.0f);
 	this->objects3DWithParticleSystem["Plan2"]->scale(0.5f, 0.5f, 0.5f);
-	ParticleSystemTransformFeedback* ps2 = this->objects3DWithParticleSystem["Plan2"]->addParticleSystemTransformFeedbackComponant();
-	ps2->setGeneratorProperty(this->objects3DWithParticleSystem["Plan2"]->getPostion(), glm::vec3(-0.2, -0.2, -0.2), glm::vec3(0.2, 0.2, 0.2), glm::vec3(0.0, 0.0, 0.0), 
-							  glm::vec3(0.0, 0.0, 0.0), 1000, 1200, 0.05, 3000, 500);
-	ps2->initializeParticleSystem("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_explosion.geo", "../IN55-Project/res/shaders/particles_update.frag", 
-								  "../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
+	for (int i=0; i<10; ++i)
+	{
+		ParticleSystemTransformFeedback* ps2 = this->objects3DWithParticleSystem["Plan2"]->addParticleSystemTransformFeedbackComponant();
+		ps2->setGeneratorProperty(this->objects3DWithParticleSystem["Plan2"]->getPostion(), glm::vec3(-0.2, -0.2, -0.2), glm::vec3(0.2, 0.2, 0.2), glm::vec3(0.0, 0.0, 0.0), 
+								  glm::vec3(0.0, 0.0, 0.0), 1000, 1200, 0.05, 3000, 500);
+		ps2->initializeParticleSystem(this->shaders["ParticleExplosionUpdate"], this->shaders["ParticleExplosionRender"]);
+	}
 
 	this->objects3DWithParticleSystem["Plan3"] = new GraphicObject3D(&this->globalInformation, "Plan3");
 	this->objects3DWithParticleSystem["Plan3"]->setCurrentGeometry(this->geometry["Plan"]);
 	this->objects3DWithParticleSystem["Plan3"]->translate(-6.0f, 5.0f, -1.0f);
 	this->objects3DWithParticleSystem["Plan3"]->scale(0.5f, 0.5f, 0.5f);
-	ParticleSystemTransformFeedback* ps3 = this->objects3DWithParticleSystem["Plan3"]->addParticleSystemTransformFeedbackComponant();
-	ps3->setGeneratorProperty(this->objects3DWithParticleSystem["Plan3"]->getPostion(), glm::vec3(-0.001, 0.00, -0.001), glm::vec3(0.001, 0.01, 0.001), glm::vec3(0.0, -0.001, 0.0), 
-							  glm::vec3(0.0, 0.1, 0.3), 10000, 10000, 0.005, 30, 4);
-	ps3->initializeParticleSystem("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_rain.geo", "../IN55-Project/res/shaders/particles_update.frag", 
-								  "../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render_rain.frag");
+	for (int i=0; i<3; ++i)
+	{
+		ParticleSystemTransformFeedback* ps3 = this->objects3DWithParticleSystem["Plan3"]->addParticleSystemTransformFeedbackComponant();
+		ps3->setGeneratorProperty(this->objects3DWithParticleSystem["Plan3"]->getPostion()+glm::vec3(0.0, 0.0, 0.051*12*i), glm::vec3(-0.002, 0.00, -0.002), glm::vec3(0.002, 0.02, 0.002), glm::vec3(0.0, -0.001, 0.0), 
+								  glm::vec3(0.0, 0.1, 0.3), 10000, 10000, 0.005, 30, 20);
+		ps3->initializeParticleSystem(this->shaders["ParticleRainUpdate"], this->shaders["ParticleRainRender"]);
+	}
 }
 
 void GraphicEngine::loadCamera()

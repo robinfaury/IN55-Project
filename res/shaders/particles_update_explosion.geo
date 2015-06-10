@@ -2,7 +2,7 @@
 
 layout(points) in; 
 layout(points) out; 
-layout(max_vertices = 500) out; 
+layout(max_vertices = 85) out; 
 
 in vec3 vertexPass[]; 
 in vec3 velocityPass[]; 

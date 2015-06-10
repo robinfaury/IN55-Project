@@ -8,7 +8,7 @@ ParticleSystemTransformFeedback::ParticleSystemTransformFeedback()
 	setGeneratorProperty(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-0.006f, 0.027f, -0.006f), glm::vec3(0.006f, 0.03f, 0.006f), glm::vec3(0, -0.0003, 0), glm::vec3(0.0f, 0.5f, 1.0f), 3000.0f, 5000.0f, 0.05f, 30, 10);
 }
 
-bool ParticleSystemTransformFeedback::initializeParticleSystem(std::string updateVertex, std::string updateGeometry, std::string updateFragment, std::string renderVertex, std::string renderGeometry, std::string renderFragment)
+bool ParticleSystemTransformFeedback::initializeParticleSystem(Shader* updateShader, Shader* renderShader)
 {
 	if (this->initialized)
 		return false;
@@ -23,8 +23,8 @@ bool ParticleSystemTransformFeedback::initializeParticleSystem(std::string updat
 		"type", 
 	};
 
-	this->updateShader = new Shader(updateVertex, updateGeometry, updateFragment);
-	this->renderShader = new Shader(renderVertex, renderGeometry, renderFragment);
+	this->updateShader = updateShader;
+	this->renderShader = renderShader;
 
 	glTransformFeedbackVaryings(this->updateShader->getProgramID(), 6, sVaryings, GL_INTERLEAVED_ATTRIBS);
 	this->updateShader->linkProgram();

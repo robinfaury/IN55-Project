@@ -62,7 +62,7 @@ private:
 public:
 	ParticleSystemTransformFeedback();
 
-	bool initializeParticleSystem(std::string updateVertex, std::string updateGeometry, std::string updateFragment, std::string renderVertex, std::string renderGeometry, std::string renderFragment);
+	bool initializeParticleSystem(Shader* updateShader, Shader* renderShader);
 
 	void renderParticles(GlobalInformation* globalInformation);
 	void updateParticles(float timePassed);

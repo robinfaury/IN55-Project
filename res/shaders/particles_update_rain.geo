@@ -2,7 +2,7 @@
 
 layout(points) in; 
 layout(points) out; 
-layout(max_vertices = 301) out; 
+layout(max_vertices = 81) out; 
 
 in vec3 vertexPass[]; 
 in vec3 velocityPass[]; 
@@ -64,11 +64,14 @@ void main()
 		
 		if (first == 1)
 		{
-			for (int i=0; i<300; ++i)
+			for (int i=0; i<12; ++i)
 			{
-				vertex = vertexPass[0] + vec3(0.01*randZeroOne(), 0.01*randZeroOne(), 0.01*i);
-				EmitVertex();
-				EndPrimitive();
+				for (int j=0; j<4; ++j)
+				{
+					vertex = vertexPass[0] + vec3(0.05*j, 0.01*randZeroOne(), 0.05*i);
+					EmitVertex();
+					EndPrimitive();
+				}
 			}
 		}
 		else
@@ -88,7 +91,7 @@ void main()
 	{
 		vertex = vertexPass[0] + velocity;
 		velocity = velocityPass[0] + gravity;
-		vec3 sphereCenter = source + vec3(0.0, -3.0, 0.01*150);
+		vec3 sphereCenter = vec3(-6.0f, 4.0f, 0.0f);
 		if (distance(vertex, sphereCenter) < 0.5)
 			velocity = reflect(velocity, vertex - sphereCenter)*1.1;
 		EmitVertex(); 
