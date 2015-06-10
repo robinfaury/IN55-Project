@@ -2,7 +2,7 @@
 
 layout(points) in; 
 layout(points) out; 
-layout(max_vertices = 40) out; 
+layout(max_vertices = 500) out; 
 
 in vec3 vertexPass[]; 
 in vec3 velocityPass[]; 
@@ -64,9 +64,7 @@ void main()
 		
 		if (first == 1)
 		{
-			/*vertex += vec3(0.0, 0.0, 1.0);
-			EmitVertex(); 
-			EndPrimitive();*/
+			
 		}
 		else
 		{
@@ -74,7 +72,7 @@ void main()
 			{
 				type = 1;
 				velocity = minimumVelocity + vec3(rangeVelocity.x*randZeroOne(), rangeVelocity.y*randZeroOne(), rangeVelocity.z*randZeroOne());
-				color = vec3(randZeroOne(), randZeroOne(), randZeroOne());
+				color = vec3(1.0, 1.0, 1.0);
 				life = minimumLife + rangeLife*randZeroOne();
 				EmitVertex(); 
 				EndPrimitive();
@@ -84,7 +82,8 @@ void main()
 	else if (life > 0.0)
 	{
 		vertex = vertexPass[0] + velocity;
-		velocity = velocityPass[0] + gravity;
+		velocity = velocityPass[0]*0.9;
+		color = color - vec3(0.0001, 0.1, 0.3);
 		EmitVertex(); 
 		EndPrimitive();
 	}

@@ -5,10 +5,10 @@ ParticleSystemTransformFeedback::ParticleSystemTransformFeedback()
 	this->initialized = false;
 	this->first = true;
 	this->currentBuffer = 0;
-	setGeneratorProperty(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-0.006f, 0.027f, -0.006f), glm::vec3(0.006f, 0.03f, 0.006f), glm::vec3(0, -0.0003, 0), glm::vec3(0.0f, 0.5f, 1.0f), 3000.0f, 5000.0f, 0.02f, 20000.0f, 10);
+	setGeneratorProperty(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-0.006f, 0.027f, -0.006f), glm::vec3(0.006f, 0.03f, 0.006f), glm::vec3(0, -0.0003, 0), glm::vec3(0.0f, 0.5f, 1.0f), 3000.0f, 5000.0f, 0.05f, 30, 10);
 }
 
-bool ParticleSystemTransformFeedback::initializeParticleSystem()
+bool ParticleSystemTransformFeedback::initializeParticleSystem(std::string updateVertex, std::string updateGeometry, std::string updateFragment, std::string renderVertex, std::string renderGeometry, std::string renderFragment)
 {
 	if (this->initialized)
 		return false;
@@ -23,8 +23,8 @@ bool ParticleSystemTransformFeedback::initializeParticleSystem()
 		"type", 
 	};
 
-	this->updateShader = new Shader("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update.geo", "../IN55-Project/res/shaders/particles_update.frag");
-	this->renderShader = new Shader("../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
+	this->updateShader = new Shader(updateVertex, updateGeometry, updateFragment);
+	this->renderShader = new Shader(renderVertex, renderGeometry, renderFragment);
 
 	glTransformFeedbackVaryings(this->updateShader->getProgramID(), 6, sVaryings, GL_INTERLEAVED_ATTRIBS);
 	this->updateShader->linkProgram();
@@ -45,7 +45,7 @@ bool ParticleSystemTransformFeedback::initializeParticleSystem()
 	{
 		glBindVertexArray(this->VAO[i]);
 		glBindBuffer(GL_ARRAY_BUFFER, this->particleBuffer[i]);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(ParticleTransformFeedback)*10000, NULL, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ParticleTransformFeedback)*500000, NULL, GL_DYNAMIC_DRAW);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(ParticleTransformFeedback), &particleInitialisation);
 
 		for (int j=0; j<6; ++j)
@@ -124,7 +124,7 @@ void ParticleSystemTransformFeedback::updateParticles(float timePassed)
 		if (this->elapsedTime > this->nextGenerationTime)
 		{
 			glUniform1i(glGetUniformLocation(programID, "numberNewParticles"), this->nbToGenerate);
-			this->elapsedTime -= this->nextGenerationTime;
+			this->elapsedTime = 0;
 			glm::vec3 randSpeed = glm::vec3(grandf(-10.0f, 20.0f), grandf(-10.0f, 20.0f), grandf(-10.0f, 20.0f));
 			glUniform3f(glGetUniformLocation(programID, "randomSeed"), randSpeed.x, randSpeed.y, randSpeed.z);
 		}
@@ -149,7 +149,7 @@ void ParticleSystemTransformFeedback::updateParticles(float timePassed)
 		glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
 		glGetQueryObjectiv(this->query, GL_QUERY_RESULT, &this->nbParticles);
 
-		std::cout<<this->nbParticles<<std::endl;
+		//std::cout<<this->nbParticles<<std::endl;
 
 		this->currentBuffer = 1 - this->currentBuffer;
 
@@ -158,7 +158,7 @@ void ParticleSystemTransformFeedback::updateParticles(float timePassed)
 }
 
 void ParticleSystemTransformFeedback::setGeneratorProperty(glm::vec3 genPosition, glm::vec3 genVelocityMin, glm::vec3 genVelocityMax, glm::vec3 genGravity, glm::vec3 genColor, 
-							float genLifeMin, float genLifeMax, float genSize, float every, int numToGenerate)
+							float genLifeMin, float genLifeMax, float genSize, int every, int numToGenerate)
 {
 	this->genPosition = genPosition;
 	this->genVelocityMin = genVelocityMin;
@@ -169,7 +169,7 @@ void ParticleSystemTransformFeedback::setGeneratorProperty(glm::vec3 genPosition
 	this->genLifeMin = genLifeMin;
 	this->genLifeRange = genLifeMax - genLifeMin;
 	this->nextGenerationTime = every;
-	this->elapsedTime = 0.8f;
+	this->elapsedTime = 0;
 	this->nbToGenerate = numToGenerate;
 }
 
@@ -185,7 +185,8 @@ bool ParticleSystemTransformFeedback::releaseParticleSystem()
 
 void ParticleSystemTransformFeedback::apply(float time, glm::vec3* position, glm::mat3* rotation, glm::vec3* scale, GlobalInformation* globalInformation)
 {
-	this->updateParticles(time - previousTime);
+	std::cout<<time - this->previousTime<<std::endl;
+	this->updateParticles(time - this->previousTime);
 	this->previousTime = time;
 	glm::vec3 view = globalInformation->getCurrentCamera()->getFocus() - globalInformation->getCurrentCamera()->getPostion();
 	view = glm::normalize(view);

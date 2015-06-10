@@ -43,7 +43,7 @@ private:
 	glm::vec3 quad1, quad2;
 
 	float previousTime;
-	float elapsedTime;
+	int elapsedTime;
 	float nextGenerationTime;
 
 	glm::vec3 genPosition;
@@ -62,13 +62,13 @@ private:
 public:
 	ParticleSystemTransformFeedback();
 
-	bool initializeParticleSystem();
+	bool initializeParticleSystem(std::string updateVertex, std::string updateGeometry, std::string updateFragment, std::string renderVertex, std::string renderGeometry, std::string renderFragment);
 
 	void renderParticles(GlobalInformation* globalInformation);
 	void updateParticles(float timePassed);
 
 	void setGeneratorProperty(glm::vec3 genPosition, glm::vec3 genVelocityMin, glm::vec3 genVelocityMax, glm::vec3 genGravity, glm::vec3 genColor, 
-							  float genLifeMin, float genLifeMax, float genSize, float every, int numToGenerate);
+							  float genLifeMin, float genLifeMax, float genSize, int every, int numToGenerate);
 
 	void setGenPosition(glm::vec3 genPosition) {this->genPosition = genPosition;}
 

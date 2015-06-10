@@ -54,6 +54,14 @@ void GraphicEngine::loadGeometry()
 	this->objLoader.loadOBJ("../IN55-Project/res/meshs/fountain.obj", static_cast<Mesh*>(this->geometry["Fountain"]));
 	static_cast<Mesh*>(this->geometry["Fountain"])->loadOnGraphicCard();
 
+	this->geometry["Explosion"] = new Mesh("Explosion");
+	this->objLoader.loadOBJ("../IN55-Project/res/meshs/explosion.obj", static_cast<Mesh*>(this->geometry["Explosion"]));
+	static_cast<Mesh*>(this->geometry["Explosion"])->loadOnGraphicCard();
+
+	this->geometry["Rain"] = new Mesh("Rain");
+	this->objLoader.loadOBJ("../IN55-Project/res/meshs/rain.obj", static_cast<Mesh*>(this->geometry["Rain"]));
+	static_cast<Mesh*>(this->geometry["Rain"])->loadOnGraphicCard();
+
 	this->geometry["Plan"] = new Plan("Plan");
 	static_cast<Plan*>(this->geometry["Plan"])->loadOnGraphicCard();
 }
@@ -87,9 +95,23 @@ void GraphicEngine::loadObject3D()
 	this->objects3D["Fountain"] = new GraphicObject3D(&this->globalInformation, "Fountain");
 	this->objects3D["Fountain"]->setCurrentGeometry(this->geometry["Fountain"]);
 	this->objects3D["Fountain"]->addGraphicRendererComponant(this->materials["Black"]);
-	this->objects3D["Fountain"]->translate(-5.0f, 1.01f, 10.0f);
+	this->objects3D["Fountain"]->translate(-5.0f, 1.2f, 10.0f);
 	this->objects3D["Fountain"]->rotate(3.14159265359f/2.0f, 0.0f, 1.0f, 0.0f);
 	this->objects3D["Fountain"]->scale(0.7f, 0.7f, 0.7f);
+
+	this->objects3D["Explosion"] = new GraphicObject3D(&this->globalInformation, "Explosion");
+	this->objects3D["Explosion"]->setCurrentGeometry(this->geometry["Explosion"]);
+	this->objects3D["Explosion"]->addGraphicRendererComponant(this->materials["Black"]);
+	this->objects3D["Explosion"]->translate(-5.0f, 1.2f, 5.0f);
+	this->objects3D["Explosion"]->rotate(3.14159265359f/2.0f, 0.0f, 1.0f, 0.0f);
+	this->objects3D["Explosion"]->scale(0.7f, 0.7f, 0.7f);
+
+	this->objects3D["Rain"] = new GraphicObject3D(&this->globalInformation, "Rain");
+	this->objects3D["Rain"]->setCurrentGeometry(this->geometry["Rain"]);
+	this->objects3D["Rain"]->addGraphicRendererComponant(this->materials["Black"]);
+	this->objects3D["Rain"]->translate(-5.0f, 1.2f, 0.0f);
+	this->objects3D["Rain"]->rotate(3.14159265359f/2.0f, 0.0f, 1.0f, 0.0f);
+	this->objects3D["Rain"]->scale(0.7f, 0.7f, 0.7f);
 
 	this->objects3DWithParticleSystem["Plan"] = new GraphicObject3D(&this->globalInformation, "Plan");
 	this->objects3DWithParticleSystem["Plan"]->setCurrentGeometry(this->geometry["Plan"]);
@@ -97,7 +119,28 @@ void GraphicEngine::loadObject3D()
 	this->objects3DWithParticleSystem["Plan"]->scale(0.5f, 0.5f, 0.5f);
 	ParticleSystemTransformFeedback* ps = this->objects3DWithParticleSystem["Plan"]->addParticleSystemTransformFeedbackComponant();
 	ps->setGenPosition(this->objects3DWithParticleSystem["Plan"]->getPostion());
-	ps->initializeParticleSystem();
+	ps->initializeParticleSystem("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update.geo", "../IN55-Project/res/shaders/particles_update.frag", 
+								 "../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
+
+	this->objects3DWithParticleSystem["Plan2"] = new GraphicObject3D(&this->globalInformation, "Plan2");
+	this->objects3DWithParticleSystem["Plan2"]->setCurrentGeometry(this->geometry["Plan"]);
+	this->objects3DWithParticleSystem["Plan2"]->translate(-6.0f, 3.0f, 5.0f);
+	this->objects3DWithParticleSystem["Plan2"]->scale(0.5f, 0.5f, 0.5f);
+	ParticleSystemTransformFeedback* ps2 = this->objects3DWithParticleSystem["Plan2"]->addParticleSystemTransformFeedbackComponant();
+	ps2->setGeneratorProperty(this->objects3DWithParticleSystem["Plan2"]->getPostion(), glm::vec3(-0.2, -0.2, -0.2), glm::vec3(0.2, 0.2, 0.2), glm::vec3(0.0, 0.0, 0.0), 
+							  glm::vec3(0.0, 0.0, 0.0), 1000, 1200, 0.05, 3000, 500);
+	ps2->initializeParticleSystem("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_explosion.geo", "../IN55-Project/res/shaders/particles_update.frag", 
+								  "../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render.frag");
+
+	this->objects3DWithParticleSystem["Plan3"] = new GraphicObject3D(&this->globalInformation, "Plan3");
+	this->objects3DWithParticleSystem["Plan3"]->setCurrentGeometry(this->geometry["Plan"]);
+	this->objects3DWithParticleSystem["Plan3"]->translate(-6.0f, 5.0f, -1.0f);
+	this->objects3DWithParticleSystem["Plan3"]->scale(0.5f, 0.5f, 0.5f);
+	ParticleSystemTransformFeedback* ps3 = this->objects3DWithParticleSystem["Plan3"]->addParticleSystemTransformFeedbackComponant();
+	ps3->setGeneratorProperty(this->objects3DWithParticleSystem["Plan3"]->getPostion(), glm::vec3(-0.001, 0.00, -0.001), glm::vec3(0.001, 0.01, 0.001), glm::vec3(0.0, -0.001, 0.0), 
+							  glm::vec3(0.0, 0.1, 0.3), 10000, 10000, 0.005, 30, 4);
+	ps3->initializeParticleSystem("../IN55-Project/res/shaders/particles_update.vert", "../IN55-Project/res/shaders/particles_update_rain.geo", "../IN55-Project/res/shaders/particles_update.frag", 
+								  "../IN55-Project/res/shaders/particles_render.vert", "../IN55-Project/res/shaders/particles_render.geo", "../IN55-Project/res/shaders/particles_render_rain.frag");
 }
 
 void GraphicEngine::loadCamera()
