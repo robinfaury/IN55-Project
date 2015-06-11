@@ -77,10 +77,13 @@ void ParticleSystemTransformFeedback::renderParticles(GlobalInformation* globalI
 
 	GLuint programID = this->renderShader->getProgramID();
 	glUseProgram(programID);
+		if (this->texture != NULL)
+			glBindTexture(GL_TEXTURE_2D, this->texture->getTextureID());
 		glUniformMatrix4fv(glGetUniformLocation(programID, "matrices.mView"), 1, GL_FALSE, &globalInformation->getCurrentCamera()->getView()[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(programID, "matrices.mProj"), 1, GL_FALSE, &globalInformation->getCurrentCamera()->getProjection()[0][0]);
 		glUniform3f(glGetUniformLocation(programID, "vQuad1"), this->quad1.x, this->quad1.y, this->quad1.z);
 		glUniform3f(glGetUniformLocation(programID, "vQuad2"), this->quad2.x, this->quad2.y, this->quad2.z);
+		glUniform1f(glGetUniformLocation(programID, "maximumLife"), this->genLifeMin+this->genLifeRange);
 
 		glBindVertexArray(this->VAO[this->currentBuffer]);
 		glDisableVertexAttribArray(1);
@@ -158,7 +161,7 @@ void ParticleSystemTransformFeedback::updateParticles(float timePassed)
 }
 
 void ParticleSystemTransformFeedback::setGeneratorProperty(glm::vec3 genPosition, glm::vec3 genVelocityMin, glm::vec3 genVelocityMax, glm::vec3 genGravity, glm::vec3 genColor, 
-							float genLifeMin, float genLifeMax, float genSize, int every, int numToGenerate)
+							float genLifeMin, float genLifeMax, float genSize, int every, int numToGenerate, Texture* texture)
 {
 	this->genPosition = genPosition;
 	this->genVelocityMin = genVelocityMin;
@@ -169,8 +172,9 @@ void ParticleSystemTransformFeedback::setGeneratorProperty(glm::vec3 genPosition
 	this->genLifeMin = genLifeMin;
 	this->genLifeRange = genLifeMax - genLifeMin;
 	this->nextGenerationTime = every;
-	this->elapsedTime = 0;
+	this->elapsedTime = this->nextGenerationTime;
 	this->nbToGenerate = numToGenerate;
+	this->texture = texture;
 }
 
 void ParticleSystemTransformFeedback::clearAllParticles()

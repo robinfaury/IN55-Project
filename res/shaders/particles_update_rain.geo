@@ -12,7 +12,7 @@ in float sizePass[];
 in int typePass[]; 
 
 out vec3 vertex; 
-out vec3 velocity; 
+out vec3 velocity;
 out vec3 color; 
 out float life; 
 out float size; 
@@ -91,7 +91,10 @@ void main()
 	{
 		vertex = vertexPass[0] + velocity;
 		velocity = velocityPass[0] + gravity;
-		vec3 sphereCenter = vec3(-6.0f, 4.0f, 0.0f);
+		vec3 sphereCenter = vec3(-6.0f, 2.1f, 0.0f);
+		if (distance(vertex, sphereCenter) < 0.5)
+			velocity = reflect(velocity, vertex - sphereCenter)*1.1;
+		sphereCenter = vec3(-5.8f, 4.1f, -1.1f);
 		if (distance(vertex, sphereCenter) < 0.5)
 			velocity = reflect(velocity, vertex - sphereCenter)*1.1;
 		EmitVertex(); 

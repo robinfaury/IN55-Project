@@ -88,13 +88,13 @@ void main()
 			EmitVertex(); 
 			EndPrimitive();
 		}
-		else if (colorPass[0].x > 0.9)
+		else if (colorPass[0].x > 0.95)
 		{
 			for (int i=0; i<42*randZeroOne(); ++i)
 			{
 				type = 1;
 				velocity = vec3(0.01*randZeroOne(), 0.01*i, 0.01*randZeroOne());
-				color = vec3(0.0, randZeroOne(), randZeroOne());
+				color = vec3(randZeroOne()-0.01, randZeroOne()/3, randZeroOne()/3);
 				life = (minimumLife + rangeLife*randZeroOne())*2;
 				EmitVertex();
 				EndPrimitive();

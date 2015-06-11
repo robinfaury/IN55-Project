@@ -2,7 +2,7 @@
 
 layout(points) in; 
 layout(points) out; 
-layout(max_vertices = 40) out; 
+layout(max_vertices = 85) out; 
 
 in vec3 vertexPass[]; 
 in vec3 velocityPass[]; 
@@ -72,33 +72,19 @@ void main()
 			{
 				type = 1;
 				velocity = minimumVelocity + vec3(rangeVelocity.x*randZeroOne(), rangeVelocity.y*randZeroOne(), rangeVelocity.z*randZeroOne());
-				color = vec3(1.0, 0.0, 0.0);
-				life = (minimumLife + rangeLife*randZeroOne())*2;
-				EmitVertex();
+				color = vec3(1.0, 1.0, 1.0);
+				life = minimumLife + rangeLife*randZeroOne();
+				EmitVertex(); 
 				EndPrimitive();
 			}
 		}
 	}
-	else
+	else if (life > 0.0)
 	{
-		if (life > minimumLife + rangeLife*randZeroOne())
-		{
-			vertex = vertexPass[0] + velocity;
-			velocity = velocityPass[0] + gravity;
-			EmitVertex(); 
-			EndPrimitive();
-		}
-		else if (colorPass[0].x > 0.9)
-		{
-			for (int i=0; i<42*randZeroOne(); ++i)
-			{
-				type = 1;
-				velocity = vec3(0.01*randZeroOne(), 0.01*i, 0.01*randZeroOne());
-				color = vec3(0.0, randZeroOne(), randZeroOne());
-				life = (minimumLife + rangeLife*randZeroOne())*2;
-				EmitVertex();
-				EndPrimitive();
-			}
-		}
+		vertex = vertexPass[0] + velocity;
+		velocity = velocityPass[0]*0.9;
+		color = color - vec3(0.0001, 0.1, 0.3);
+		EmitVertex(); 
+		EndPrimitive();
 	}
 }
