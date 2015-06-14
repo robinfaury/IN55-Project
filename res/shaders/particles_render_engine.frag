@@ -12,5 +12,5 @@ void main()
 {
 	vec4 texColor = texture2D(gSampler, texCoord);
 	float alpha = distance(texColor.xyz, vec3(0.0, 0.0, 0.0));
-	FragColor = vec4(texColor.xyz, alpha);
+	FragColor = vec4(texColor.xyz, alpha*alpha);
 }

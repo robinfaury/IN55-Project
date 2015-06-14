@@ -84,6 +84,18 @@ void GraphicEngine::loadGeometry()
 	this->objLoader.loadOBJ("../IN55-Project/res/meshs/firework.obj", static_cast<Mesh*>(this->geometry["Firework"]));
 	static_cast<Mesh*>(this->geometry["Firework"])->loadOnGraphicCard();
 
+	this->geometry["Fire"] = new Mesh("Fire");
+	this->objLoader.loadOBJ("../IN55-Project/res/meshs/fire.obj", static_cast<Mesh*>(this->geometry["Fire"]));
+	static_cast<Mesh*>(this->geometry["Fire"])->loadOnGraphicCard();
+
+	this->geometry["Smoke"] = new Mesh("Smoke");
+	this->objLoader.loadOBJ("../IN55-Project/res/meshs/smoke.obj", static_cast<Mesh*>(this->geometry["Smoke"]));
+	static_cast<Mesh*>(this->geometry["Smoke"])->loadOnGraphicCard();
+
+	this->geometry["Gravity"] = new Mesh("Gravity");
+	this->objLoader.loadOBJ("../IN55-Project/res/meshs/gravity.obj", static_cast<Mesh*>(this->geometry["Gravity"]));
+	static_cast<Mesh*>(this->geometry["Gravity"])->loadOnGraphicCard();
+
 	this->geometry["Plan"] = new Plan("Plan");
 	static_cast<Plan*>(this->geometry["Plan"])->loadOnGraphicCard();
 }
@@ -149,6 +161,13 @@ void GraphicEngine::loadObject3D()
 	this->objects3D["Firework"]->rotate(3.14159265359f/2.0f, 0.0f, 1.0f, 0.0f);
 	this->objects3D["Firework"]->scale(0.7f, 0.7f, 0.7f);
 
+	this->objects3D["Fire"] = new GraphicObject3D(&this->globalInformation, "Fire");
+	this->objects3D["Fire"]->setCurrentGeometry(this->geometry["Fire"]);
+	this->objects3D["Fire"]->addGraphicRendererComponant(this->materials["Black"]);
+	this->objects3D["Fire"]->translate(5.0f, 1.2f, -8.0f);
+	this->objects3D["Fire"]->rotate(-3.14159265359f/2.0f, 0.0f, 1.0f, 0.0f);
+	this->objects3D["Fire"]->scale(0.7f, 0.7f, 0.7f);
+
 	this->objects3DWithParticleSystem["Plan"] = new GraphicObject3D(&this->globalInformation, "Plan");
 	this->objects3DWithParticleSystem["Plan"]->setCurrentGeometry(this->geometry["Plan"]);
 	this->objects3DWithParticleSystem["Plan"]->translate(-6.0f, 1.0f, 10.0f);
@@ -177,7 +196,7 @@ void GraphicEngine::loadObject3D()
 	{
 		ps = this->objects3DWithParticleSystem["Plan3"]->addParticleSystemTransformFeedbackComponant();
 		ps->setGeneratorProperty(this->objects3DWithParticleSystem["Plan3"]->getPostion()+glm::vec3(0.0f, 0.0f, 0.051f*12*i), glm::vec3(-0.002, 0.00, -0.002), glm::vec3(0.002, 0.02, 0.002), glm::vec3(0.0, -0.001, 0.0), 
-								  glm::vec3(0.0f, 0.1f, 0.3f), 3300, 3300, 0.005f, 30, 25);
+								  glm::vec3(0.0f, 0.1f, 0.3f), 4300, 4300, 0.005f, 30, 25);
 		ps->initializeParticleSystem(this->shaders["ParticleRainUpdate"], this->shaders["ParticleRainRender"]);
 	}
 
@@ -213,12 +232,12 @@ void GraphicEngine::loadObject3D()
 
 	this->objects3DWithParticleSystem["Plan7"] = new GraphicObject3D(&this->globalInformation, "Plan7");
 	this->objects3DWithParticleSystem["Plan7"]->setCurrentGeometry(this->geometry["Plan"]);
-	this->objects3DWithParticleSystem["Plan7"]->translate(6.0f, 1.0f, 8.0f);
+	this->objects3DWithParticleSystem["Plan7"]->translate(6.0f, 3.0f, 10.0f);
 	this->objects3DWithParticleSystem["Plan7"]->scale(0.5f, 0.5f, 0.5f);
 	ps = this->objects3DWithParticleSystem["Plan7"]->addParticleSystemTransformFeedbackComponant();
-	ps->setGeneratorProperty(this->objects3DWithParticleSystem["Plan7"]->getPostion(), glm::vec3(-0.005, 0.01, -0.005), glm::vec3(0.005, 0.05, 0.005), glm::vec3(0.0, 0.0, 0.0), 
-								glm::vec3(0.0, 0.1, 0.3), 200000, 200000, 0.1, 10000, 85);
-	ps->initializeParticleSystem(this->shaders["ParticleGravityUpdate"], this->shaders["ParticleGravityRender"]);
+	ps->setGeneratorProperty(this->objects3DWithParticleSystem["Plan7"]->getPostion(), glm::vec3(-0.01, -0.05, -0.01), glm::vec3(0.01, -0.04, -0.07), glm::vec3(0.0, 0.0018, 0.0), 
+								glm::vec3(0.0, 0.0, 0.0), 4100, 4700, 0.1, 30, 20);
+	ps->initializeParticleSystem(this->shaders["ParticleFountainUpdate"], this->shaders["ParticleFountainRender"]);
 }
 
 void GraphicEngine::loadCamera()

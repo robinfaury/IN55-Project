@@ -198,8 +198,7 @@ void ParticleSystemTransformFeedback::apply(float time, glm::vec3* position, glm
 	this->quad1 = glm::cross(view, globalInformation->getCurrentCamera()->getUpVector());
 	this->quad1 = glm::normalize(this->quad1);
 	
-	this->quad2 = glm::cross(view, this->quad1);
-	this->quad2 = glm::normalize(this->quad2);
+	this->quad2 = globalInformation->getCurrentCamera()->getUpVector();
 
 	renderParticles(globalInformation);
 }
